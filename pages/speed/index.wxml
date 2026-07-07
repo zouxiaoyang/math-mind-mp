@@ -132,7 +132,7 @@
         </view>
         <view class="stat-divider"></view>
         <view class="stat-item">
-          <view class="stat-val">{{totalAnswered > 0 ? (correctCount / totalAnswered * 100) : 0}}%</view>
+          <view class="stat-val">{{accuracyDisplay}}%</view>
           <view class="stat-lbl">正确率</view>
         </view>
       </view>

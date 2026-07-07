@@ -47,7 +47,10 @@ Page({
     this.timer = setInterval(() => {
       if (this.data.timeLeft <= 0) {
         clearInterval(this.timer)
-        this.setData({ gameState: 'finished' })
+        const total = this.data.totalAnswered
+        const correct = this.data.correctCount
+        const accuracy = total > 0 ? Math.round(correct / total * 100) : 0
+        this.setData({ gameState: 'finished', accuracyDisplay: accuracy })
         this.saveResult(startTime)
         return
       }
