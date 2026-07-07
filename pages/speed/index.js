@@ -1,4 +1,5 @@
 const api = require('../../utils/api')
+const { playTap } = require('../../utils/sound')
 
 Page({
   data: {
@@ -68,12 +69,14 @@ Page({
   onInput(e) { this.setData({ input: e.detail.value }) },
 
   onKeyTap(e) {
+    playTap()
     const key = e.currentTarget.dataset.key
     const input = this.data.input + key
     if (input.length <= 5) this.setData({ input })
   },
 
   onBackspace() {
+    playTap()
     const input = this.data.input
     if (input.length > 0) this.setData({ input: input.slice(0, -1) })
   },
