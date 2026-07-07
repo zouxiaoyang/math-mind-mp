@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/speed/index",
+    "pages/thinking/index",
+    "pages/report/index",
+    "pages/profile/index",
+    "pages/login/index",
+    "pages/generate/index",
+    "pages/mistakes/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#07C160",
+    "navigationBarTitleText": "数学思维训练",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f7f7f7"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "学习"
+      },
+      {
+        "pagePath": "pages/speed/index",
+        "text": "速算"
+      },
+      {
+        "pagePath": "pages/report/index",
+        "text": "报告"
+      },
+      {
+        "pagePath": "pages/generate/index",
+        "text": "出题"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

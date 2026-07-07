@@ -1,0 +1,114 @@
+<view class="container">
+  <!-- 未登录 -->
+  <block wx:if="{{!hasLogin}}">
+    <view class="card empty-card">
+      <view class="empty-illustration">
+        <view class="empty-circle">📕</view>
+      </view>
+      <view class="text-bold empty-title">登录后查看错题</view>
+      <view class="text-muted empty-desc">错题会自动收录，帮你巩固提高</view>
+      <button class="btn-primary empty-btn" bindtap="goLogin">去登录</button>
+    </view>
+  </block>
+
+  <!-- 无错题 -->
+  <block wx:elif="{{mistakes.length === 0}}">
+    <view class="card empty-card">
+      <view class="empty-illustration">
+        <view class="empty-circle celebrate">🎉</view>
+      </view>
+      <view class="text-bold empty-title">太棒了！暂无错题</view>
+      <view class="text-muted empty-desc">继续保持这个势头！</view>
+      <button class="btn-primary empty-btn" bindtap="goPractice">去练习</button>
+    </view>
+  </block>
+
+  <!-- 有错题 -->
+  <block wx:else>
+    <!-- 顶部卡片：统计 + 筛选 -->
+    <view class="card top-card">
+      <view class="top-header">
+        <view class="top-title">
+          <view class="top-icon">📝</view>
+          <view>
+            <view class="top-heading">错题本</view>
+            <view class="top-sub">共 {{mistakes.length}} 道题需要复习</view>
+          </view>
+        </view>
+        <view class="top-clear" bindtap="clearAll">清空</view>
+      </view>
+      <scroll-view scroll-x class="filter-scroll">
+        <view class="filter-row">
+          <view wx:for="{{subjects}}" wx:key="key"
+                class="filter-tag {{activeFilter === item.key ? 'active' : ''}}"
+                data-key="{{item.key}}" bindtap="onFilterChange">
+            <text class="filter-icon">{{item.icon}}</text>
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 错题列表 -->
+    <view wx:for="{{filteredMistakes}}" wx:key="questionId" class="mistake-item">
+      <view class="mistake-card">
+        <view class="mc-header">
+          <view class="mc-meta">
+            <view class="mc-difficulty">
+              <text wx:for="{{item.stars}}" wx:key="*this" class="star">★</text>
+            </view>
+            <view class="mc-subject">{{item.subjectLabel}}</view>
+          </view>
+          <view class="mc-status">待复习</view>
+        </view>
+
+        <view class="mc-content">
+          <view class="mc-q-icon">Q</view>
+          <view class="mc-text">{{item.content}}</view>
+        </view>
+
+        <view class="mc-answer mc-wrong">
+          <view class="mc-answer-icon">✗</view>
+          <view class="mc-answer-body">
+            <view class="mc-answer-label">我的答案</view>
+            <view class="mc-answer-text">{{item.userAnswer || '未作答'}}</view>
+          </view>
+        </view>
+
+        <view class="mc-toggle" data-id="{{item.questionId}}" bindtap="toggleAnswer" wx:if="{{!showAnswer[item.questionId]}}">
+          <text>点击查看正确答案</text>
+          <text class="mc-toggle-icon">▼</text>
+        </view>
+
+        <block wx:if="{{showAnswer[item.questionId]}}">
+          <view class="mc-answer mc-correct">
+            <view class="mc-answer-icon">✓</view>
+            <view class="mc-answer-body">
+              <view class="mc-answer-label">正确答案</view>
+              <view class="mc-answer-text">{{item.correctAnswer}}</view>
+            </view>
+          </view>
+
+          <view class="mc-explanation" wx:if="{{item.explanation}}">
+            <view class="mc-exp-header">
+              <text class="mc-exp-icon">💡</text>
+              <text class="mc-exp-title">思路解析</text>
+            </view>
+            <view class="mc-exp-body">{{item.explanation}}</view>
+          </view>
+
+          <view class="mc-toggle" data-id="{{item.questionId}}" bindtap="toggleAnswer">
+            <text>收起</text>
+            <text class="mc-toggle-icon">▲</text>
+          </view>
+        </block>
+
+        <view class="mc-actions">
+          <view class="mc-action-btn" data-id="{{item.questionId}}" bindtap="retryQuestion">
+            <text>🔄</text><text>重做</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

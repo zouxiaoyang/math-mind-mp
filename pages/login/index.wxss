@@ -1,0 +1,145 @@
+/* login.wxss - 登录页 */
+
+.login-header {
+  text-align: center;
+  padding: 60rpx 32rpx 40rpx;
+}
+
+.login-logo {
+  font-size: 120rpx;
+  margin-bottom: 16rpx;
+}
+
+.login-title {
+  font-size: 44rpx;
+  color: #333;
+}
+
+.login-subtitle {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.login-card {
+  padding: 40rpx 32rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 32rpx;
+}
+
+.form-row {
+  margin-bottom: 28rpx;
+}
+
+.form-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  line-height: 40rpx;
+  padding: 24rpx 28rpx;
+  background: #f9fafb;
+  border: 1rpx solid #e5e7eb;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder {
+  color: #9ca3ab;
+  line-height: 40rpx;
+}
+
+.form-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.form-input-wrap .form-input {
+  flex: 1;
+}
+
+.btn-getnick {
+  padding: 16rpx 24rpx;
+  background: #f3f4f6;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #07c160;
+  border: 1rpx solid #07c160;
+  white-space: nowrap;
+}
+
+.btn-getnick::after { border: none; }
+
+/* 年级选择 */
+.grade-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.grade-pod {
+  padding: 14rpx 28rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1rpx solid transparent;
+}
+
+.grade-pod.active {
+  background: #07c160;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 学期切换 */
+.semester-toggle {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 12rpx;
+  padding: 4rpx;
+}
+
+.semester-btn {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.semester-btn.active {
+  background: #fff;
+  color: #07c160;
+  font-weight: 600;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.1);
+}
+
+/* 登录按钮 */
+.login-btn {
+  width: 100%;
+  margin-top: 20rpx;
+  padding: 26rpx;
+  font-size: 32rpx;
+}
+
+.login-tip {
+  text-align: center;
+  font-size: 22rpx;
+  color: #9ca3af;
+  margin-top: 24rpx;
+}

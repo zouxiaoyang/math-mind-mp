@@ -1,0 +1,155 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e27"/>
+      <stop offset="100%" stop-color="#131a3a"/>
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffb347" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ff6b35" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0091ea" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff8c00"/>
+    </linearGradient>
+    
+    <!-- Filters -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background: rounded square -->
+  <rect width="1024" height="1024" rx="200" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle inner border -->
+  <rect x="40" y="40" width="944" height="944" rx="180" fill="none" stroke="#1e2a5a" stroke-width="2"/>
+
+  <!-- Outer glow ring -->
+  <circle cx="512" cy="512" r="340" fill="url(#centerGlow)" opacity="0.4"/>
+  
+  <!-- === NEURAL NETWORK - Brain Silhouette === -->
+  <g opacity="0.35">
+    <!-- Outer ring of nodes - scattered math symbols -->
+    <!-- Top arc -->
+    <text x="320" y="200" font-size="40" fill="#4a6fa5" font-family="serif" opacity="0.6">π</text>
+    <text x="512" y="150" font-size="36" fill="#4a6fa5" font-family="serif" opacity="0.5">Σ</text>
+    <text x="680" y="200" font-size="42" fill="#4a6fa5" font-family="serif" opacity="0.6">∞</text>
+    
+    <!-- Left arc -->
+    <text x="180" y="380" font-size="38" fill="#4a6fa5" font-family="serif" opacity="0.5">√</text>
+    <text x="150" y="560" font-size="40" fill="#4a6fa5" font-family="serif" opacity="0.5">∫</text>
+    
+    <!-- Right arc -->
+    <text x="820" y="380" font-size="38" fill="#4a6fa5" font-family="serif" opacity="0.5">Δ</text>
+    <text x="850" y="560" font-size="40" fill="#4a6fa5" font-family="serif" opacity="0.5">λ</text>
+    
+    <!-- Bottom -->
+    <text x="320" y="850" font-size="40" fill="#4a6fa5" font-family="serif" opacity="0.5">≠</text>
+    <text x="690" y="850" font-size="38" fill="#4a6fa5" font-family="serif" opacity="0.5">≈</text>
+  </g>
+
+  <!-- === BRAIN SILHOUETTE - Formed by interconnected paths === -->
+  <g filter="url(#glow)">
+    <!-- Main neural pathways (cyan lines) -->
+    <!-- Central cluster connections -->
+    <path d="M 400 400 Q 450 350 512 380 Q 574 410 600 380" 
+          stroke="url(#neuralGrad)" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M 400 620 Q 450 650 512 620 Q 574 590 600 620" 
+          stroke="url(#neuralGrad)" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M 380 450 Q 350 512 380 574" 
+          stroke="url(#neuralGrad)" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M 644 450 Q 674 512 644 574" 
+          stroke="url(#neuralGrad)" stroke-width="3" fill="none" opacity="0.7"/>
+    
+    <!-- Diagonal connections -->
+    <path d="M 400 400 L 320 320" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.5"/>
+    <path d="M 624 400 L 720 300" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.5"/>
+    <path d="M 400 620 L 320 720" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.5"/>
+    <path d="M 624 620 L 720 720" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.5"/>
+    
+    <!-- Cross connections -->
+    <path d="M 400 400 Q 512 490 624 400" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.6"/>
+    <path d="M 400 620 Q 512 530 624 620" stroke="url(#neuralGrad)" stroke-width="2.5" fill="none" opacity="0.6"/>
+  </g>
+
+  <!-- === CORE BRAIN SHAPE === -->
+  <!-- Head silhouette outline formed by equations -->
+  <g fill="none" stroke="#ffd700" stroke-width="3" opacity="0.6" filter="url(#softGlow)">
+    <!-- Top of brain / skull outline - golden equation arc -->
+    <path d="M 280 480 Q 350 280 512 280 Q 674 280 744 480" 
+          stroke="#ffb347" stroke-width="2.5" opacity="0.7"/>
+    <!-- Bottom curve / chin -->
+    <path d="M 280 480 Q 300 640 400 700 Q 512 760 624 700 Q 724 640 744 480"
+          stroke="#ffb347" stroke-width="2.5" opacity="0.7"/>
+  </g>
+
+  <!-- === CENTRAL SPARK - The "Mind" moment === -->
+  <g filter="url(#glow)">
+    <!-- Radial burst -->
+    <circle cx="512" cy="512" r="80" fill="url(#centerGlow)"/>
+    
+    <!-- Lightning/spark core -->
+    <polygon points="512,440 490,500 512,500 490,580 530,510 510,510 535,440" 
+             fill="url(#goldGrad)" filter="url(#softGlow)"/>
+    
+    <!-- Orbit particles -->
+    <circle cx="440" cy="440" r="6" fill="#00e5ff" opacity="0.9"/>
+    <circle cx="580" cy="440" r="5" fill="#ff6b35" opacity="0.8"/>
+    <circle cx="440" cy="580" r="5" fill="#ffd700" opacity="0.8"/>
+    <circle cx="580" cy="580" r="6" fill="#00e5ff" opacity="0.9"/>
+    <circle cx="380" cy="512" r="4" fill="#ffd700" opacity="0.7"/>
+    <circle cx="644" cy="512" r="4" fill="#ff6b35" opacity="0.7"/>
+  </g>
+
+  <!-- === MATH SYMBOLS as floating elements === -->
+  <!-- These are the "stars" of the neural network -->
+  <g filter="url(#softGlow)">
+    <text x="320" y="320" font-size="52" fill="#00e5ff" font-family="serif" font-weight="bold" opacity="0.85">×</text>
+    <text x="700" y="300" font-size="56" fill="#ffd700" font-family="serif" font-weight="bold" opacity="0.85">÷</text>
+    <text x="300" y="730" font-size="48" fill="#ff6b35" font-family="serif" font-weight="bold" opacity="0.8">+</text>
+    <text x="730" y="730" font-size="52" fill="#00e5ff" font-family="serif" font-weight="bold" opacity="0.85">−</text>
+    
+    <!-- Small equation accents -->
+    <text x="370" y="510" font-size="32" fill="#4dd0e1" font-family="monospace" opacity="0.6">f(x)</text>
+    <text x="600" y="530" font-size="28" fill="#ffb74d" font-family="monospace" opacity="0.5">2ⁿ</text>
+    <text x="480" y="680" font-size="24" fill="#80cbc4" font-family="serif" opacity="0.5">{ }</text>
+  </g>
+
+  <!-- === DECORATIVE RINGS === -->
+  <g fill="none" stroke-width="1.5">
+    <circle cx="512" cy="512" r="220" stroke="#1e3a6e" stroke-opacity="0.4" stroke-dasharray="8 6"/>
+    <circle cx="512" cy="512" r="300" stroke="#1e3a6e" stroke-opacity="0.3" stroke-dasharray="12 8"/>
+  </g>
+
+  <!-- === CORNER ACCENTS === -->
+  <!-- Small glowing corner dots -->
+  <circle cx="120" cy="120" r="4" fill="#00e5ff" opacity="0.5"/>
+  <circle cx="904" cy="120" r="4" fill="#ffd700" opacity="0.5"/>
+  <circle cx="120" cy="904" r="4" fill="#ff6b35" opacity="0.5"/>
+  <circle cx="904" cy="904" r="4" fill="#00e5ff" opacity="0.5"/>
+
+  <!-- === CENTER FINISH - Small equation ring around the spark === -->
+  <g font-size="22" fill="#ffffff" font-family="monospace" opacity="0.7" filter="url(#softGlow)">
+    <text x="455" y="440">1</text>
+    <text x="555" y="445">+</text>
+    <text x="470" y="595">=</text>
+    <text x="555" y="590">∞</text>
+  </g>
+</svg>

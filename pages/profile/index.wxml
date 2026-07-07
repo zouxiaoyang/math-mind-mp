@@ -1,0 +1,114 @@
+<view class="container">
+  <!-- 顶部用户卡 -->
+  <view class="profile-header">
+    <view class="ph-bg"></view>
+    <view class="ph-content">
+      <!-- 用户信息 -->
+      <view class="ph-user">
+        <view class="ph-avatar">
+          <text class="ph-avatar-text">{{userName[0] || '同'}}</text>
+        </view>
+        <view class="ph-info">
+          <view class="ph-name" wx:if="{{hasLogin}}">{{userName || '用户'}}</view>
+          <view class="ph-name" wx:else>未登录</view>
+          <view class="ph-meta" wx:if="{{hasLogin}}">
+            <text class="ph-grade">{{userInfo.grade || '?'}}年级</text>
+            <text class="ph-dot">·</text>
+            <text class="ph-level">Lv.{{level}}</text>
+          </view>
+          <view class="ph-meta" wx:else>
+            <text class="ph-login-tip">登录后同步学习数据</text>
+          </view>
+        </view>
+      </view>
+      <!-- 登录按钮 -->
+      <button class="ph-login-btn" wx:if="{{!hasLogin}}" bindtap="goLogin">微信登录</button>
+    </view>
+  </view>
+
+  <!-- 学习数据 -->
+  <view class="card stats-card" wx:if="{{hasLogin}}">
+    <view class="stats-grid">
+      <view class="st-item">
+        <view class="st-num" style="color: #07c160;">{{totalAnswers}}</view>
+        <view class="st-label">累计答题</view>
+      </view>
+      <view class="st-item">
+        <view class="st-num" style="color: #10b981;">{{accuracy}}%</view>
+        <view class="st-label">正确率</view>
+      </view>
+      <view class="st-item">
+        <view class="st-num" style="color: #f59e0b;">{{speedGames}}</view>
+        <view class="st-label">速算场次</view>
+      </view>
+      <view class="st-item">
+        <view class="st-num" style="color: #ef4444;">{{mistakeCount}}</view>
+        <view class="st-label">错题数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成就徽章 -->
+  <view class="card" wx:if="{{hasLogin}}">
+    <view class="card-title">🏆 我的成就</view>
+    <view class="badges-grid">
+      <view class="badge-item {{totalAnswers >= 1 ? 'unlocked' : ''}}">
+        <view class="badge-icon">🌱</view>
+        <view class="badge-name">初出茅庐</view>
+        <view class="badge-cond">完成1题</view>
+      </view>
+      <view class="badge-item {{totalAnswers >= 10 ? 'unlocked' : ''}}">
+        <view class="badge-icon">🔥</view>
+        <view class="badge-name">勤加练习</view>
+        <view class="badge-cond">完成10题</view>
+      </view>
+      <view class="badge-item {{totalAnswers >= 50 ? 'unlocked' : ''}}">
+        <view class="badge-icon">⚡</view>
+        <view class="badge-name">思维达人</view>
+        <view class="badge-cond">完成50题</view>
+      </view>
+      <view class="badge-item {{accuracy >= 80 && totalAnswers >= 10 ? 'unlocked' : ''}}">
+        <view class="badge-icon">💎</view>
+        <view class="badge-name">准确之王</view>
+        <view class="badge-cond">正确率80%+</view>
+      </view>
+      <view class="badge-item {{speedGames >= 5 ? 'unlocked' : ''}}">
+        <view class="badge-icon">🏃</view>
+        <view class="badge-name">速算高手</view>
+        <view class="badge-cond">速算5场+</view>
+      </view>
+      <view class="badge-item {{mistakeCount === 0 && totalAnswers >= 10 ? 'unlocked' : ''}}">
+        <view class="badge-icon">🌟</view>
+        <view class="badge-name">完美无缺</view>
+        <view class="badge-cond">零错题</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="card menu-card" wx:if="{{hasLogin}}">
+    <view class="menu-item" bindtap="goMistakes">
+      <view class="menu-icon">📝</view>
+      <view class="menu-text">错题本</view>
+      <view class="menu-badge" wx:if="{{mistakeCount > 0}}">{{mistakeCount}}</view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-item" bindtap="onShareAppMessage">
+      <view class="menu-icon">📤</view>
+      <view class="menu-text">分享给好友</view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="card menu-card" wx:if="{{hasLogin}}">
+    <view class="menu-item" bindtap="handleLogout">
+      <view class="menu-icon" style="color: #ef4444;">🚪</view>
+      <view class="menu-text" style="color: #ef4444;">退出登录</view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 版本 -->
+  <view class="version-text">数学思维训练 v1.0.1</view>
+</view>

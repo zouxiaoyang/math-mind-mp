@@ -1,0 +1,47 @@
+<view class="container">
+  <!-- Logo 区 -->
+  <view class="login-header">
+    <view class="login-logo">🧮</view>
+    <view class="text-bold login-title">数学思维训练</view>
+    <view class="text-muted login-subtitle">开启你的数学思维之旅</view>
+  </view>
+
+  <!-- 登录卡片 -->
+  <view class="card login-card">
+    <view class="card-title">基本信息</view>
+
+    <!-- 姓名 -->
+    <view class="form-row">
+      <view class="form-label">姓名</view>
+      <input class="form-input" placeholder="请输入姓名" value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <!-- 年级 -->
+    <view class="form-row">
+      <view class="form-label">年级</view>
+      <view class="grade-picker">
+        <view wx:for="{{gradeList}}" wx:key="*this"
+              class="grade-pod {{gradeIndex == index ? 'active' : ''}}"
+              data-index="{{index}}" bindtap="onGradeChange">{{item}}年级</view>
+      </view>
+    </view>
+
+    <!-- 学期 -->
+    <view class="form-row">
+      <view class="form-label">学期</view>
+      <view class="semester-toggle">
+        <view wx:for="{{semesterList}}" wx:key="*this"
+              class="semester-btn {{semesterIndex == index ? 'active' : ''}}"
+              data-index="{{index}}" bindtap="onSemesterChange">{{item}}</view>
+      </view>
+    </view>
+
+    <button class="btn-primary login-btn" bindtap="handleLogin" loading="{{loading}}">
+      微信一键登录
+    </button>
+
+    <view class="login-tip">
+      登录即表示同意《用户协议》和《隐私政策》
+    </view>
+  </view>
+</view>

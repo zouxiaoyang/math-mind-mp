@@ -1,0 +1,10 @@
+/* thinking.wxss */
+.input {
+  border: 2rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 32rpx;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+}

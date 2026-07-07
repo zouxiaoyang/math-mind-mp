@@ -1,0 +1,366 @@
+/* ========== 错题本 - 视觉化设计 ========== */
+
+/* ---- 空状态 ---- */
+.empty-card {
+  text-align: center;
+  padding: 80rpx 40rpx;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+
+.empty-illustration {
+  margin-bottom: 24rpx;
+}
+
+.empty-circle {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80rpx;
+  margin: 0 auto;
+}
+
+.empty-circle.celebrate {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+.empty-title {
+  font-size: 38rpx;
+  margin-top: 24rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  margin-top: 12rpx;
+}
+
+.empty-btn {
+  width: 60%;
+  margin-top: 40rpx;
+}
+
+/* ---- 顶部卡片 ---- */
+.top-card {
+  padding: 32rpx;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: #fff;
+}
+
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.top-title {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.top-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.top-heading {
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.top-sub {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4rpx;
+}
+
+.top-clear {
+  padding: 10rpx 24rpx;
+  border-radius: 24rpx;
+  background: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  font-size: 24rpx;
+  border: 1rpx solid rgba(239, 68, 68, 0.4);
+}
+
+/* ---- 筛选 ---- */
+.filter-scroll {
+  white-space: nowrap;
+  margin: 0 -8rpx;
+}
+
+.filter-row {
+  display: inline-flex;
+  gap: 12rpx;
+  padding: 4rpx 8rpx;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 12rpx 24rpx;
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.filter-tag.active {
+  background: #fff;
+  color: #1e293b;
+  font-weight: 600;
+  border-color: #fff;
+  box-shadow: 0 2rpx 12rpx rgba(255, 255, 255, 0.3);
+}
+
+.filter-icon {
+  font-size: 24rpx;
+}
+
+/* ---- 错题卡片 ---- */
+.mistake-item {
+  margin-bottom: 20rpx;
+}
+
+.mistake-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+/* 头部 */
+.mc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 28rpx;
+  background: #fafafa;
+  border-bottom: 1rpx solid #f1f5f9;
+}
+
+.mc-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.mc-difficulty {
+  color: #f59e0b;
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+}
+
+.mc-subject {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+
+.mc-status {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  background: #fef2f2;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.mc-status.reviewed {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+/* 题目内容 */
+.mc-content {
+  display: flex;
+  gap: 20rpx;
+  padding: 28rpx;
+  align-items: flex-start;
+}
+
+.mc-q-icon {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 12rpx;
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 22rpx;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.mc-text {
+  font-size: 30rpx;
+  color: #1e293b;
+  line-height: 1.7;
+  flex: 1;
+}
+
+/* 答案区 */
+.mc-answer {
+  display: flex;
+  gap: 20rpx;
+  margin: 0 28rpx 16rpx;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  align-items: flex-start;
+}
+
+.mc-wrong {
+  background: #fef2f2;
+  border: 1rpx solid #fecaca;
+}
+
+.mc-correct {
+  background: #f0fdf4;
+  border: 1rpx solid #bbf7d0;
+  margin-top: 16rpx;
+}
+
+.mc-answer-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mc-wrong .mc-answer-icon {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.mc-correct .mc-answer-icon {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.mc-answer-body {
+  flex: 1;
+}
+
+.mc-answer-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  margin-bottom: 6rpx;
+}
+
+.mc-wrong .mc-answer-label {
+  color: #dc2626;
+}
+
+.mc-correct .mc-answer-label {
+  color: #16a34a;
+}
+
+.mc-answer-text {
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+.mc-wrong .mc-answer-text {
+  color: #b91c1c;
+}
+
+.mc-correct .mc-answer-text {
+  color: #15803d;
+}
+
+/* 展开/收起 */
+.mc-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 16rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.mc-toggle-icon {
+  font-size: 20rpx;
+}
+
+/* 解析 */
+.mc-explanation {
+  margin: 0 28rpx 20rpx;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border-radius: 16rpx;
+  border: 1rpx solid #fde68a;
+}
+
+.mc-exp-header {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 12rpx;
+}
+
+.mc-exp-icon {
+  font-size: 28rpx;
+}
+
+.mc-exp-title {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.mc-exp-body {
+  font-size: 26rpx;
+  color: #78350f;
+  line-height: 1.7;
+}
+
+/* 操作按钮 */
+.mc-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16rpx 28rpx;
+  border-top: 1rpx solid #f1f5f9;
+}
+
+.mc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  background: linear-gradient(135deg, #07c160, #06ad56);
+  color: #fff;
+  font-weight: 600;
+}

@@ -1,0 +1,157 @@
+/* report.wxss - 报告页样式 */
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+/* 统计卡片网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 24rpx 16rpx;
+  background: #f9fafb;
+  border-radius: 16rpx;
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+/* 图表 */
+.chart-wrap {
+  margin-top: 16rpx;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6rpx;
+  height: 160rpx;
+  padding: 0 8rpx;
+}
+
+.bar-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar-fill {
+  width: 100%;
+  max-width: 24rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  min-height: 4rpx;
+  transition: height 0.3s;
+}
+
+.bar-fill.correct { background: #10b981; }
+.bar-fill.wrong { background: #ef4444; }
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 32rpx;
+  margin-top: 16rpx;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 22rpx;
+  color: #999;
+}
+
+.legend-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 4rpx;
+}
+
+.legend-dot.correct { background: #10b981; }
+.legend-dot.wrong { background: #ef4444; }
+
+/* 常见错误标签 */
+.mistakes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.mistake-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 20rpx;
+  background: #fef2f2;
+  border: 1rpx solid #fecaca;
+  border-radius: 32rpx;
+  font-size: 24rpx;
+  color: #dc2626;
+}
+
+.mistake-count {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.btn-go-mistakes {
+  width: 100%;
+  padding: 20rpx;
+  background: #f9fafb;
+  border: 1rpx solid #e5e7eb;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+  text-align: center;
+}
+
+.btn-go-mistakes::after { border: none; }
+
+/* 能力徽章 */
+.ability-badge {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+  font-weight: 900;
+  color: #fff;
+}
+
+.ability-badge.gold {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 0 4rpx 20rpx rgba(245, 158, 11, 0.4);
+}
+
+.ability-badge.silver {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  box-shadow: 0 4rpx 20rpx rgba(107, 114, 128, 0.4);
+}
+
+.ability-badge.bronze {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  box-shadow: 0 4rpx 20rpx rgba(217, 119, 6, 0.4);
+}

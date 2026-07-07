@@ -1,0 +1,101 @@
+<view class="container">
+  <!-- 未登录 -->
+  <block wx:if="{{!hasLogin}}">
+    <view class="card" style="text-align: center; padding: 80rpx 32rpx;">
+      <view style="font-size: 100rpx;">📊</view>
+      <view class="text-bold mt-m" style="font-size: 38rpx;">登录后查看报告</view>
+      <view class="text-muted mt-s">你的学习数据、能力分析和成长轨迹</view>
+      <button class="btn-primary mt-l" bindtap="goLogin" style="width: 60%;">立即登录</button>
+    </view>
+  </block>
+
+  <!-- 无数据 -->
+  <block wx:elif="{{!report || report.overview.totalAnswers === 0}}">
+    <view class="card" style="text-align: center; padding: 80rpx 32rpx;">
+      <view style="font-size: 100rpx;">📝</view>
+      <view class="text-bold mt-m" style="font-size: 38rpx;">还没有学习数据</view>
+      <view class="text-muted mt-s">完成练习后这里会显示你的成长报告</view>
+      <view class="flex-between mt-l" style="gap: 16rpx;">
+        <button class="btn-primary" style="flex:1;" bindtap="goThinking">去做题</button>
+        <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, #f59e0b, #d97706);" bindtap="goSpeed">速算</button>
+      </view>
+    </view>
+  </block>
+
+  <!-- 有数据 -->
+  <block wx:else>
+    <!-- 问候 -->
+    <view class="card" style="background: linear-gradient(135deg, #07c160, #05a348); color: #fff;">
+      <view class="flex-between">
+        <view>
+          <view style="font-size: 26rpx; opacity: 0.85;">{{userName}} 的学习报告</view>
+          <view class="text-bold" style="font-size: 44rpx; margin-top: 8rpx;">继续加油 💪</view>
+        </view>
+        <view style="font-size: 60rpx;">📈</view>
+      </view>
+    </view>
+
+    <!-- 概览统计 -->
+    <view class="card">
+      <view class="section-title">数据概览</view>
+      <view class="stats-grid">
+        <view class="stat-box">
+          <view class="stat-num" style="color: #07c160;">{{report.overview.totalAnswers}}</view>
+          <view class="stat-label">总答题</view>
+        </view>
+        <view class="stat-box">
+          <view class="stat-num" style="color: #10b981;">{{report.overview.accuracy}}%</view>
+          <view class="stat-label">正确率</view>
+        </view>
+        <view class="stat-box">
+          <view class="stat-num" style="color: #f59e0b;">{{report.overview.avgScore}}</view>
+          <view class="stat-label">平均分</view>
+        </view>
+        <view class="stat-box">
+          <view class="stat-num" style="color: #8b5cf6;">{{report.overview.speedGames || 0}}</view>
+          <view class="stat-label">速算场</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 分数趋势 -->
+    <view class="card" wx:if="{{report.scoreTrend.length > 0}}">
+      <view class="section-title">得分趋势</view>
+      <view class="chart-wrap">
+        <view class="chart-bars">
+          <view wx:for="{{report.scoreTrend}}" wx:key="index" class="bar-item">
+            <view class="bar-fill {{item.isCorrect ? 'correct' : 'wrong'}}" style="height: {{item.score ? item.score * 10 : 5}}%;"></view>
+          </view>
+        </view>
+        <view class="chart-legend">
+          <view class="legend-item"><view class="legend-dot correct"></view>正确</view>
+          <view class="legend-item"><view class="legend-dot wrong"></view>错误</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 常见错误 -->
+    <view class="card" wx:if="{{report.topMistakes.length > 0}}">
+      <view class="section-title">常见薄弱点</view>
+      <view class="mistakes-list">
+        <view wx:for="{{report.topMistakes}}" wx:key="name" class="mistake-tag">
+          <text>{{item.name}}</text>
+          <text class="mistake-count">{{item.count}}次</text>
+        </view>
+      </view>
+      <button class="btn-go-mistakes" bindtap="goMistakes">查看错题本 ›</button>
+    </view>
+
+    <!-- 能力等级 -->
+    <view class="card" style="text-align: center;">
+      <view class="section-title">能力评估</view>
+      <view class="ability-badge {{report.overview.accuracy >= 80 ? 'gold' : report.overview.accuracy >= 60 ? 'silver' : 'bronze'}}">
+        {{report.overview.accuracy >= 80 ? 'S' : report.overview.accuracy >= 60 ? 'A' : report.overview.accuracy >= 40 ? 'B' : 'C'}}
+      </view>
+      <view class="text-muted mt-s">根据正确率评估</view>
+      <view style="margin-top: 16rpx; font-size: 26rpx; color: #666;">
+        {{report.overview.accuracy >= 80 ? '思维能力强，继续保持！' : report.overview.accuracy >= 60 ? '表现不错，还有提升空间' : report.overview.accuracy >= 40 ? '多加练习，你会更强' : '坚持就是胜利！'}}
+      </view>
+    </view>
+  </block>
+</view>

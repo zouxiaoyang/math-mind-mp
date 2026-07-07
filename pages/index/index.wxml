@@ -1,0 +1,112 @@
+<view class="container">
+  <!-- 顶部欢迎区 -->
+  <view class="hero-card">
+    <view class="hero-bg"></view>
+    <view class="hero-content">
+      <view class="hero-top">
+        <view class="hero-greeting">
+          <view class="hero-emoji">👋</view>
+          <view>
+            <view class="hero-sub">{{greeting}}，{{userName || '同学'}}</view>
+            <view class="hero-title">数学思维训练</view>
+          </view>
+        </view>
+        <view class="hero-level" wx:if="{{hasLogin}}">
+          <view class="level-badge">Lv.{{level}}</view>
+        </view>
+      </view>
+
+      <!-- 数据速览 -->
+      <view class="hero-stats" wx:if="{{hasLogin}}">
+        <view class="hs-item">
+          <view class="hs-num">{{stats.total}}</view>
+          <view class="hs-label">答题</view>
+        </view>
+        <view class="hs-divider"></view>
+        <view class="hs-item">
+          <view class="hs-num">{{stats.correctRate}}%</view>
+          <view class="hs-label">正确率</view>
+        </view>
+        <view class="hs-divider"></view>
+        <view class="hs-item">
+          <view class="hs-num">{{stats.speedGames || 0}}</view>
+          <view class="hs-label">速算</view>
+        </view>
+      </view>
+
+      <!-- 未登录状态 -->
+      <view class="hero-login" wx:else>
+        <view class="hero-login-text">登录后记录你的学习数据</view>
+        <button class="btn-login" bindtap="goLogin">微信登录</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日目标 -->
+  <view class="card goal-card" wx:if="{{hasLogin}}">
+    <view class="goal-header">
+      <view>
+        <view class="goal-icon">🎯</view>
+        <view class="goal-text">
+          <view class="goal-title">今日目标</view>
+          <view class="goal-sub">完成 {{dailyGoal}} 道题</view>
+        </view>
+      </view>
+      <view class="goal-percent">{{stats.total >= dailyGoal ? '100' : Math.min(100, Math.round(stats.total / dailyGoal * 100))}}%</view>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{Math.min(100, stats.total / dailyGoal * 100)}}%;"></view>
+    </view>
+    <view class="goal-status">
+      <text wx:if="{{stats.total >= dailyGoal}}">🎉 今日目标已完成！太棒了！</text>
+      <text wx:else>还需完成 {{dailyGoal - stats.total > 0 ? dailyGoal - stats.total : 0}} 道题，加油！</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="section-label">开始练习</view>
+  <view class="grid-2">
+    <view class="card action-card speed" bindtap="goSpeed">
+      <view class="ac-icon">⚡</view>
+      <view class="ac-info">
+        <view class="ac-name">速算挑战</view>
+        <view class="ac-desc">60秒极速心算</view>
+      </view>
+      <view class="ac-arrow">›</view>
+    </view>
+    <view class="card action-card thinking" bindtap="goThinking">
+      <view class="ac-icon">🧠</view>
+      <view class="ac-info">
+        <view class="ac-name">思维训练</view>
+        <view class="ac-desc">逐步解析诊断</view>
+      </view>
+      <view class="ac-arrow">›</view>
+    </view>
+    <view class="card action-card generate" bindtap="goGenerate">
+      <view class="ac-icon">🤖</view>
+      <view class="ac-info">
+        <view class="ac-name">AI 出题</view>
+        <view class="ac-desc">智能生成题库</view>
+      </view>
+      <view class="ac-arrow">›</view>
+    </view>
+    <view class="card action-card report" bindtap="goReport">
+      <view class="ac-icon">📊</view>
+      <view class="ac-info">
+        <view class="ac-name">学习报告</view>
+        <view class="ac-desc">查看能力分析</view>
+      </view>
+      <view class="ac-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 错题提醒 -->
+  <view class="card mistake-reminder" wx:if="{{hasLogin && mistakeCount > 0}}" bindtap="goMistakes">
+    <view class="mr-icon">📝</view>
+    <view class="mr-body">
+      <view class="mr-title">你有 {{mistakeCount}} 道错题待复习</view>
+      <view class="mr-desc">及时巩固，加深理解</view>
+    </view>
+    <view class="mr-go">去复习 ›</view>
+  </view>
+</view>

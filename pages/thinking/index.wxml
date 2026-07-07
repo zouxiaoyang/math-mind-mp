@@ -1,0 +1,103 @@
+<view class="container">
+  <!-- 设置区域 -->
+  <block wx:if="{{questions.length === 0}}">
+    <view class="card" style="text-align: center;">
+      <view style="font-size: 80rpx;">🧠</view>
+      <view class="text-bold" style="font-size: 36rpx;">思维训练</view>
+      <view class="text-muted mt-s">从题库中抽题练习</view>
+    </view>
+    <view class="card">
+      <view class="text-bold" style="font-size: 32rpx;">设置</view>
+      <view class="flex-between" style="padding: 16rpx 0;">
+        <text>年级</text>
+        <picker mode="selector" range="{{[1,2,3,4,5,6]}}" value="{{grade - 1}}" bindchange="onGradeChange">{{grade}}年级 ›</picker>
+      </view>
+      <view class="flex-between" style="padding: 16rpx 0;">
+        <text>学期</text>
+        <picker mode="selector" range="{{['上学期','下学期']}}" value="{{semester - 1}}" bindchange="onSemesterChange">{{semester === 1 ? '上学期' : '下学期'}} ›</picker>
+      </view>
+      <view class="flex-between" style="padding: 16rpx 0;">
+        <text>难度</text>
+        <picker mode="selector" range="{{['全部','★','★★','★★★','★★★★','★★★★★']}}" value="{{difficultyIndex}}" bindchange="onDifficultyChange">{{stars || '全部'}} ›</picker>
+      </view>
+      <view class="flex-between" style="padding: 16rpx 0;">
+        <text>题数</text>
+        <picker mode="selector" range="{{[1,3,5,10]}}" value="{{countIndex}}" bindchange="onCountChange">{{count}}题 ›</picker>
+      </view>
+    </view>
+    <button class="btn-primary" style="width: 100%;" bindtap="startTraining" loading="{{loading}}">🚀 开始训练</button>
+  </block>
+
+  <!-- 答题后解析 -->
+  <block wx:elif="{{showAnalysis}}">
+    <view class="card" style="background: linear-gradient(135deg, #eff6ff, #f5f3ff);">
+      <!-- 得分卡片 -->
+      <view class="flex-between" style="margin-bottom: 16rpx;">
+        <view class="flex gap-s">
+          <view style="font-size: 48rpx;">{{analysis.score >= 8 ? '🌟' : analysis.score >= 5 ? '💪' : '📝'}}</view>
+          <view>
+            <view class="text-bold" style="font-size: 36rpx; color: {{analysis.score >= 8 ? '#10b981' : analysis.score >= 5 ? '#f59e0b' : '#6b7280'}};">{{analysis.score}}/10</view>
+            <view class="text-muted">{{analysis.score >= 8 ? '优秀！' : analysis.score >= 5 ? '继续加油' : '再看看'}}</view>
+          </view>
+        </view>
+        <text wx:if="{{analysis.method === 'ai'}}" style="font-size: 20rpx; background: #dbeafe; color: #2563eb; padding: 4rpx 12rpx; border-radius: 8rpx;">AI</text>
+        <text wx:else style="font-size: 20rpx; background: #f3f4f6; color: #6b7280; padding: 4rpx 12rpx; border-radius: 8rpx;">规则</text>
+      </view>
+
+      <!-- 逐步骤诊断 -->
+      <view wx:if="{{analysis.stepAnalysis && analysis.stepAnalysis.length > 0}}">
+        <view class="text-bold mb-s" style="font-size: 28rpx;">🔍 逐步骤诊断</view>
+        <view wx:for="{{analysis.stepAnalysis}}" wx:key="index" style="background: {{item.isCorrect ? '#f0fdf4' : '#fef2f2'}}; border: 2rpx solid {{item.isCorrect ? '#bbf7d0' : '#fecaca'}}; border-radius: 12rpx; padding: 16rpx; margin-bottom: 12rpx;">
+          <view class="flex gap-s">
+            <text style="font-size: 28rpx;">{{item.isCorrect ? '✓' : '✗'}}</text>
+            <view style="flex: 1;">
+              <text style="font-size: 26rpx; color: #374151;">{{item.step}}</text>
+              <view class="flex-between" style="margin-top: 8rpx;">
+                <text style="font-size: 22rpx; color: {{item.isCorrect ? '#16a34a' : '#dc2626'}};">{{item.comment}}</text>
+                <text style="font-size: 22rpx; color: #9ca3af;">得分: {{item.partialCredit}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 思维路径 -->
+      <view wx:if="{{analysis.thinkingPath}}" style="background: #f9fafb; border-radius: 12rpx; padding: 16rpx; margin-top: 16rpx;">
+        <view class="text-bold mb-s" style="font-size: 28rpx;">🧠 思维路径</view>
+        <text style="font-size: 26rpx; color: #4b5563; line-height: 1.6;">{{analysis.thinkingPath}}</text>
+      </view>
+
+      <!-- 薄弱点 -->
+      <view wx:if="{{analysis.mistakePattern}}" style="background: #fff7ed; border: 2rpx solid #fed7aa; border-radius: 12rpx; padding: 16rpx; margin-top: 16rpx;">
+        <view class="text-bold mb-s" style="font-size: 28rpx;">⚠️ 薄弱点</view>
+        <text style="font-size: 26rpx; color: #9a3412;">{{analysis.mistakePattern}}</text>
+      </view>
+
+      <!-- 建议 -->
+      <view wx:if="{{analysis.suggestion}}" style="background: #eff6ff; border: 2rpx solid #bfdbfe; border-radius: 12rpx; padding: 16rpx; margin-top: 16rpx;">
+        <view class="text-bold mb-s" style="font-size: 28rpx;">📈 建议</view>
+        <text style="font-size: 26rpx; color: #1e40af;">{{analysis.suggestion}}</text>
+      </view>
+
+      <button class="btn-primary mt-l" bindtap="nextQuestion" style="width: 100%;">{{currentIdx + 1 < questions.length ? '下一题 →' : '完成'}}</button>
+    </view>
+  </block>
+
+  <!-- 答题区域 -->
+  <block wx:else>
+    <view class="card">
+      <view class="flex-between" style="margin-bottom: 16rpx;">
+        <text class="text-muted">第 {{currentIdx + 1}} / {{questions.length}} 题</text>
+        <text class="difficulty-tag">{{questionStars}}</text>
+      </view>
+      <view class="text-bold" style="font-size: 32rpx; margin-bottom: 16rpx;">{{questions[currentIdx].title}}</view>
+      <view style="font-size: 28rpx; line-height: 1.6;">{{questions[currentIdx].content}}</view>
+      
+    </view>
+    <view class="card" style="margin-top: 24rpx;">
+      <textarea class="input" placeholder="请输入你的答案..." value="{{answer}}" bindinput="onAnswerInput" style="border: 2rpx solid #ddd; border-radius: 12rpx; padding: 24rpx; height: 500rpx; font-size: 32rpx; width: 100%; box-sizing: border-box;" />
+      <button wx:if="{{!submitted}}" class="btn-primary" style="margin-top: 32rpx; width: 100%;" bindtap="submitAnswer">提交答案</button>
+      <button wx:else class="btn-primary" style="margin-top: 32rpx; width: 100%; opacity: 0.5; background: #9ca3af;" disabled="{{true}}">已提交 ✓</button>
+    </view>
+  </block>
+</view>
