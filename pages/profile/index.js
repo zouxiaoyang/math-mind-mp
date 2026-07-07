@@ -12,6 +12,8 @@ Page({
     dailyGoal: 10,
     mistakeCount: 0,
     level: 1,
+    showShareModal: false,
+    shareTitle: '',
   },
 
   onShow() {
@@ -69,17 +71,23 @@ Page({
     const title = this.data.accuracy >= 60
       ? `我在数学思维训练正确率 ${this.data.accuracy}%，来挑战我吧！`
       : '数学思维训练 - 一起来练数学思维！'
-    // 真机通过 showShareMenu 触发分享面板
-    wx.showShareMenu({ menus: ['shareAppMessage'] })
-    // 模拟器/开发工具中弹出提示
-    if (!wx.getSystemInfoSync().platform || wx.getSystemInfoSync().platform === 'devtools') {
-      wx.showModal({
-        title: '分享',
-        content: `分享标题：${title}\n分享路径：/pages/index/index\n\n（请在真机上测试分享功能）`,
-        showCancel: false,
-      })
-    }
+    wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
+    this.setData({ showShareModal: true, shareTitle: title })
   },
+
+  closeShare() {
+    this.setData({ showShareModal: false })
+  },
+
+  shareToMoments() {
+    wx.showToast({
+      title: '请点右上角分享到朋友圈',
+      icon: 'none',
+      duration: 2000,
+    })
+  },
+
+  noop() {},
   onShareAppMessage() {
     return makeShareHandler({
       prefix: '数学思维训练',

@@ -227,3 +227,188 @@
   margin-top: 40rpx;
   margin-bottom: 20rpx;
 }
+
+/* ========== 分享弹窗 ========== */
+.share-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.share-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.share-panel {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 0 0 60rpx;
+  animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- 顶部 ---- */
+.share-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx 32rpx 16rpx;
+  position: relative;
+}
+
+.share-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.share-close {
+  position: absolute;
+  right: 32rpx;
+  top: 24rpx;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #999;
+  background: #f3f4f6;
+  border-radius: 50%;
+}
+
+/* ---- 预览卡片 ---- */
+.share-card {
+  margin: 0 32rpx 32rpx;
+  padding: 24rpx;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfccb 100%);
+  border: 1rpx solid #bbf7d0;
+  border-radius: 20rpx;
+}
+
+.sc-preview {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.sc-logo {
+  width: 72rpx;
+  height: 72rpx;
+  background: linear-gradient(135deg, #07c160, #06ad56);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.sc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sc-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #166534;
+}
+
+.sc-desc {
+  font-size: 24rpx;
+  color: #15803d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4rpx;
+}
+
+.sc-tip {
+  text-align: center;
+  font-size: 22rpx;
+  color: #94a3b8;
+  margin-top: 16rpx;
+}
+
+/* ---- 按钮区 ---- */
+.share-actions {
+  display: flex;
+  gap: 24rpx;
+  padding: 0 32rpx;
+}
+
+.share-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 24rpx 16rpx;
+  border-radius: 20rpx;
+  border: none;
+  background: #f9fafb;
+  transition: all 0.15s;
+}
+
+.share-btn::after {
+  border: none;
+  border-radius: 20rpx;
+}
+
+.sb-icon {
+  font-size: 48rpx;
+  line-height: 1;
+}
+
+.sb-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #374151;
+}
+
+.share-btn-active {
+  background: #e5e7eb;
+  transform: scale(0.96);
+}
+
+.share-friends {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+}
+
+.share-friends .sb-text {
+  color: #166534;
+}
+
+.share-moments {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+}
+
+.share-moments .sb-text {
+  color: #92400e;
+}
+
+/* ---- 底部提示 ---- */
+.share-hint {
+  text-align: center;
+  font-size: 22rpx;
+  color: #cbd5e1;
+  margin-top: 24rpx;
+}
+
+/* ---- 动画 ---- */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

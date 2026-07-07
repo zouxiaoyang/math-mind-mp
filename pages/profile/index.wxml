@@ -111,4 +111,43 @@
 
   <!-- 版本 -->
   <view class="version-text">数学思维训练 v1.0.1</view>
+
+  <!-- ========== 分享弹窗 ========== -->
+  <view class="share-modal" wx:if="{{showShareModal}}" bindtap="closeShare" catchtouchmove="noop">
+    <view class="share-mask"></view>
+    <view class="share-panel" catchtap="noop">
+      <!-- 顶部标题 -->
+      <view class="share-header">
+        <view class="share-title">分享给好友</view>
+        <view class="share-close" bindtap="closeShare">×</view>
+      </view>
+
+      <!-- 预览卡片 -->
+      <view class="share-card">
+        <view class="sc-preview">
+          <view class="sc-logo">⚡</view>
+          <view class="sc-info">
+            <view class="sc-name">{{userName || '同学'}}</view>
+            <view class="sc-desc">{{shareTitle}}</view>
+          </view>
+        </view>
+        <view class="sc-tip">好友点击后可打开小程序开始练习</view>
+      </view>
+
+      <!-- 分享按钮区 -->
+      <view class="share-actions">
+        <button class="share-btn share-friends" open-type="share" hover-class="share-btn-active">
+          <view class="sb-icon">💬</view>
+          <view class="sb-text">微信好友</view>
+        </button>
+        <view class="share-btn share-moments" bindtap="shareToMoments">
+          <view class="sb-icon">🌐</view>
+          <view class="sb-text">朋友圈</view>
+        </view>
+      </view>
+
+      <!-- 提示 -->
+      <view class="share-hint">点击右上角「···」也可分享</view>
+    </view>
+  </view>
 </view>
