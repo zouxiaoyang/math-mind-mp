@@ -39,6 +39,7 @@ Page({
   },
 
   async handleGenerate() {
+    if (this.data.loading) return
     this.setData({ loading: true, result: null })
     try {
       const user = wx.getStorageSync('userInfo')

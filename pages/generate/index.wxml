@@ -25,8 +25,8 @@
     </view>
   </view>
 
-  <button class="btn-primary" style="width: 100%;" bindtap="handleGenerate" loading="{{loading}}">
-    ✨ 一键生成 {{count}} 题
+  <button class="btn-primary" style="width: 100%; background: {{loading ? '#94a3b8' : 'linear-gradient(135deg, #07c160, #06ad56)'}}; opacity: {{loading ? 0.7 : 1}};" bindtap="handleGenerate" disabled="{{loading}}">
+    {{loading ? '⏳ 生成中...' : '✨ 一键生成 ' + count + ' 题'}}
   </button>
 
   <view class="card" wx:if="{{result}}">
