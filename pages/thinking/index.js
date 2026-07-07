@@ -32,6 +32,7 @@ Page({
     showAnalysis: false,
     analysis: null,
     submitted: false,
+    submitting: false,
     loading: false,
     poolSize: 0,
     fromMistakes: false,
@@ -147,8 +148,10 @@ Page({
   onAnswerInput(e) { this.setData({ answer: e.detail.value }) },
 
   async submitAnswer() {
+    if (this.data.submitting || this.data.submitted) return
     const { questions, currentIdx, answer } = this.data
     if (!questions[currentIdx] || !answer.trim()) return
+    this.setData({ submitting: true })
     try {
       const user = wx.getStorageSync('userInfo')
       const res = await apiRequest('/api/answers', {
@@ -157,7 +160,7 @@ Page({
         userId: user?.id || null,
       })
       if (res.success) {
-        this.setData({ showAnalysis: true, submitted: true, analysis: { ...res.data.analysis, method: res.data.analysisMethod || 'smart_fallback' } })
+        this.setData({ showAnalysis: true, submitted: true, submitting: false, analysis: { ...res.data.analysis, method: res.data.analysisMethod || 'smart_fallback' } })
         if (res.data.analysis && !res.data.analysis.isCorrect && getApp()) {
           const q = questions[currentIdx]
           getApp().addMistake({
@@ -167,13 +170,13 @@ Page({
             correctAnswer: q.answer,
           })
         } else if (res.data.analysis && res.data.analysis.isCorrect && getApp() && this.data.fromMistakes) {
-          // 答对了，从错题本移除
           getApp().removeMistake(questions[currentIdx].id)
           wx.showToast({ title: '答对了！已从错题本移除', icon: 'success' })
         }
       }
     } catch (err) {
       wx.showToast({ title: '提交失败', icon: 'none' })
+      this.setData({ submitting: false })
     }
   },
 

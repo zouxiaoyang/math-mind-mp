@@ -96,7 +96,7 @@
     </view>
     <view class="card" style="margin-top: 24rpx;">
       <textarea class="input" placeholder="请输入你的答案..." value="{{answer}}" bindinput="onAnswerInput" style="border: 2rpx solid #ddd; border-radius: 12rpx; padding: 24rpx; height: 500rpx; font-size: 32rpx; width: 100%; box-sizing: border-box;" />
-      <button wx:if="{{!submitted}}" class="btn-primary" style="margin-top: 32rpx; width: 100%;" bindtap="submitAnswer">提交答案</button>
+      <button wx:if="{{!submitted}}" class="btn-primary" style="margin-top: 32rpx; width: 100%; background: {{submitting ? '#94a3b8' : ''}}; opacity: {{submitting ? 0.7 : 1}};" bindtap="submitAnswer" disabled="{{submitting}}">{{submitting ? '提交中...' : '提交答案'}}</button>
       <button wx:else class="btn-primary" style="margin-top: 32rpx; width: 100%; opacity: 0.5; background: #9ca3af;" disabled="{{true}}">已提交 ✓</button>
     </view>
   </block>
