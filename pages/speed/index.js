@@ -19,10 +19,7 @@ Page({
 
   timer: null,
 
-  onLoad() { this.getInputRef() },
   onUnload() { if (this.timer) clearInterval(this.timer) },
-
-  getInputRef() { this.inputRef = this.selectComponent('#answerInput') },
 
   generateProblem() {
     const d = this.data.difficulty
@@ -55,7 +52,6 @@ Page({
       }
       this.setData({ timeLeft: this.data.timeLeft - 1 })
     }, 1000)
-    setTimeout(() => this.inputRef?.focus(), 100)
   },
 
   async saveResult(startTime) {
@@ -71,6 +67,21 @@ Page({
 
   onInput(e) { this.setData({ input: e.detail.value }) },
 
+  onKeyTap(e) {
+    const key = e.currentTarget.dataset.key
+    const input = this.data.input + key
+    if (input.length <= 5) this.setData({ input })
+  },
+
+  onBackspace() {
+    const input = this.data.input
+    if (input.length > 0) this.setData({ input: input.slice(0, -1) })
+  },
+
+  focusInput() {
+    // 兼容：点击输入框区域不再弹出系统键盘（自定义键盘已替代）
+  },
+
   submitAnswer() {
     const { problem, input, streak, totalAnswered, correctCount, maxStreak } = this.data
     if (!problem || !input.trim()) return
@@ -84,7 +95,6 @@ Page({
     this.setData({ totalAnswered: totalAnswered + 1 })
     setTimeout(() => this.setData({ feedback: null }), 350)
     this.setData({ problem: this.generateProblem(), input: '' })
-    setTimeout(() => this.inputRef?.focus(), 50)
   },
 
   selectGrade(e) {

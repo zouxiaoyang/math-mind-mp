@@ -77,9 +77,35 @@
     </view>
 
     <view class="input-area">
-      <input class="answer-input" type="digit" value="{{input}}" bindinput="onInput" 
-             bindconfirm="submitAnswer" placeholder="输入答案" confirm-type="done"/>
+      <view class="answer-display" bindtap="focusInput">
+        <text wx:if="{{input}}">{{input}}</text>
+        <text wx:else class="answer-placeholder">?</text>
+      </view>
       <button class="submit-btn" bindtap="submitAnswer">确定</button>
+    </view>
+
+    <!-- 自定义街机键盘 -->
+    <view class="arcade-keypad">
+      <view class="keypad-row">
+        <view class="key" bindtap="onKeyTap" data-key="1">1</view>
+        <view class="key" bindtap="onKeyTap" data-key="2">2</view>
+        <view class="key" bindtap="onKeyTap" data-key="3">3</view>
+      </view>
+      <view class="keypad-row">
+        <view class="key" bindtap="onKeyTap" data-key="4">4</view>
+        <view class="key" bindtap="onKeyTap" data-key="5">5</view>
+        <view class="key" bindtap="onKeyTap" data-key="6">6</view>
+      </view>
+      <view class="keypad-row">
+        <view class="key" bindtap="onKeyTap" data-key="7">7</view>
+        <view class="key" bindtap="onKeyTap" data-key="8">8</view>
+        <view class="key" bindtap="onKeyTap" data-key="9">9</view>
+      </view>
+      <view class="keypad-row">
+        <view class="key key-back" bindtap="onBackspace">⌫</view>
+        <view class="key" bindtap="onKeyTap" data-key="0">0</view>
+        <view class="key key-enter" bindtap="submitAnswer">⏎</view>
+      </view>
     </view>
   </block>
 

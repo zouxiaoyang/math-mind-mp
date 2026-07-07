@@ -1,5 +1,5 @@
 const api = require('../../utils/api')
-const { makeShareHandler } = require('../../utils/share')
+const { makeShareHandler, enableShare } = require('../../utils/share')
 
 Page({
   data: {
@@ -15,6 +15,7 @@ Page({
   },
 
   onShow() {
+    enableShare()
     const user = api.getCurrentUser()
     this.setData({
       userInfo: user,
@@ -64,5 +65,26 @@ Page({
 
   goLogin() { wx.navigateTo({ url: '/pages/login/index' }) },
   goMistakes() { wx.navigateTo({ url: '/pages/mistakes/index' }) },
-  onShareAppMessage: makeShareHandler({ prefix: '数学思维训练' }),
+  handleShare() {
+    const title = this.data.accuracy >= 60
+      ? `我在数学思维训练正确率 ${this.data.accuracy}%，来挑战我吧！`
+      : '数学思维训练 - 一起来练数学思维！'
+    // 真机通过 showShareMenu 触发分享面板
+    wx.showShareMenu({ menus: ['shareAppMessage'] })
+    // 模拟器/开发工具中弹出提示
+    if (!wx.getSystemInfoSync().platform || wx.getSystemInfoSync().platform === 'devtools') {
+      wx.showModal({
+        title: '分享',
+        content: `分享标题：${title}\n分享路径：/pages/index/index\n\n（请在真机上测试分享功能）`,
+        showCancel: false,
+      })
+    }
+  },
+  onShareAppMessage() {
+    return makeShareHandler({
+      prefix: '数学思维训练',
+      score: this.data.accuracy,
+      getPath: () => '/pages/index/index',
+    })()
+  },
 })

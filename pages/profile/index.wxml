@@ -93,7 +93,7 @@
       <view class="menu-badge" wx:if="{{mistakeCount > 0}}">{{mistakeCount}}</view>
       <view class="menu-arrow">›</view>
     </view>
-    <view class="menu-item" bindtap="onShareAppMessage">
+    <view class="menu-item" bindtap="handleShare">
       <view class="menu-icon">📤</view>
       <view class="menu-text">分享给好友</view>
       <view class="menu-arrow">›</view>

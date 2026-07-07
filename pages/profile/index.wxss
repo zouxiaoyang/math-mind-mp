@@ -192,9 +192,6 @@
   border-bottom: none;
 }
 
-.menu-item:active {
-  background: #f9fafb;
-}
 
 .menu-icon {
   font-size: 32rpx;
