@@ -33,9 +33,11 @@ Page({
       const loginRes = await new Promise((resolve, reject) => {
         wx.login({ success: resolve, fail: reject })
       })
-      if (!loginRes.code) {throw new Error('获取微信授权失败')}
+      if (!loginRes.code) {
+        throw new Error('获取微信授权失败')
+      }
 
-      const user = await api.login(
+      await api.login(
         loginRes.code,
         this.data.name.trim(),
         this.data.gradeList[this.data.gradeIndex]
