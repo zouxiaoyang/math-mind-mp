@@ -11,6 +11,7 @@ Page({
     stars: '★★',
     theta: 2.5,
     thetaLevel: 2,
+    thetaStars: '★★',
     timeLeft: 60,
     score: 0,
     streak: 0,
@@ -36,8 +37,16 @@ Page({
     syncTabBar(this)
     if (getApp()) {
       const theta = getApp().getTheta()
-      this.setData({ theta: theta.toFixed(1), thetaLevel: Math.round(theta) })
+      this._applyTheta(theta)
     }
+  },
+
+  _applyTheta(theta) {
+    this.setData({
+      theta: theta.toFixed(1),
+      thetaLevel: Math.round(theta),
+      thetaStars: '★'.repeat(Math.round(theta)),
+    })
   },
 
   generateProblem() {
@@ -177,7 +186,7 @@ Page({
     }
     if (getApp()) {
       const newTheta = getApp().updateTheta(isCorrect, this.data.difficulty)
-      this.setData({ theta: newTheta.toFixed(1), thetaLevel: Math.round(newTheta) })
+      this._applyTheta(newTheta)
     }
     this.setData({ totalAnswered: totalAnswered + 1 })
     setTimeout(() => this.setData({ feedback: null }), 350)

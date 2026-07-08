@@ -92,6 +92,7 @@
       <view class="theta-card">
         <text class="theta-title">能力值 θ</text>
         <text class="theta-number">{{theta}}</text>
+        <text class="theta-stars">{{thetaStars}}</text>
         <text class="theta-grade {{report.overview.accuracy >= 80 ? 'gold' : report.overview.accuracy >= 60 ? 'silver' : 'bronze'}}">
           {{report.overview.accuracy >= 80 ? 'S' : report.overview.accuracy >= 60 ? 'A' : report.overview.accuracy >= 40 ? 'B' : 'C'}}
         </text>

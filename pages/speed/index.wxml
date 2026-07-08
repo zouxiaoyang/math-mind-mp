@@ -11,7 +11,7 @@
       <view class="title-sub">60秒 · 连击加成 · 越算越快</view>
       <view class="theta-badge-speed">
         <text class="theta-label">能力值 θ {{theta}}</text>
-        <text class="theta-stars">{{'★'.repeat(thetaLevel)}}</text>
+        <text class="theta-stars">{{thetaStars}}</text>
       </view>
       <view class="config-card">
         <view class="config-row">
@@ -143,7 +143,7 @@
       <view class="theta-result">
         <text class="theta-label">能力值</text>
         <text class="theta-value">θ {{theta}}</text>
-        <text class="theta-stars">{{'★'.repeat(thetaLevel)}}</text>
+        <text class="theta-stars">{{thetaStars}}</text>
       </view>
 
       <button class="start-btn" bindtap="startGame">

@@ -10,6 +10,7 @@ Page({
     hasLogin: false,
     userName: '',
     theta: 2.5,
+    thetaStars: '★★',
   },
   _loaded: true,
   onUnload() {
@@ -20,8 +21,15 @@ Page({
     this.checkLogin()
     syncTabBar(this)
     if (getApp()) {
-      this.setData({ theta: getApp().getTheta().toFixed(1) })
+      this._applyTheta(getApp().getTheta())
     }
+  },
+
+  _applyTheta(theta) {
+    this.setData({
+      theta: theta.toFixed(1),
+      thetaStars: '★'.repeat(Math.round(theta)),
+    })
   },
 
   checkLogin() {
