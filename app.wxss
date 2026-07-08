@@ -13,6 +13,12 @@ page {
 /* ---- layout helpers ---- */
 .container {
   padding: 32rpx;
+  padding-bottom: 140rpx;
+  box-sizing: border-box;
+}
+
+.container-no-tab {
+  padding: 32rpx;
   box-sizing: border-box;
 }
 

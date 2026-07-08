@@ -4,6 +4,8 @@
   background: #0a0e27;
   position: relative;
   overflow: hidden;
+  padding-bottom: 140rpx;
+  box-sizing: border-box;
 }
 
 /* ===== IDLE STATE ===== */
