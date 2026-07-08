@@ -1,0 +1,34 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true,
+    "commonjs": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "globals": {
+    "wx": "readonly",
+    "getApp": "readonly",
+    "App": "readonly",
+    "Page": "readonly",
+    "Component": "readonly",
+    "getCurrentPages": "readonly",
+    "requirePlugin": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "args": "none", "varsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "no-undef": "error",
+    "semi": "off",
+    "no-extra-semi": "off",
+    "eqeqeq": ["warn", "always", { "null": "ignore" }],
+    "curly": "warn",
+    "no-empty": "warn",
+    "no-var": "off",
+    "prefer-const": "off"
+  },
+  "ignorePatterns": ["node_modules/", "miniprogram_npm/"]
+}

@@ -5,6 +5,26 @@
   "description": "数学思维训练 - 微信小程序 (原生)",
   "scripts": {
     "dev": "echo '用微信开发者工具打开本项目目录'",
-    "build": "echo '用微信开发者工具上传代码'"
+    "build": "echo '用微信开发者工具上传代码'",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,wxml,wxss,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.9.4"
   }
 }
