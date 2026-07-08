@@ -1,4 +1,5 @@
 const api = require('../../utils/api')
+const { showError } = require('../../utils/toast')
 
 Page({
   data: {
@@ -32,13 +33,17 @@ Page({
       const loginRes = await new Promise((resolve, reject) => {
         wx.login({ success: resolve, fail: reject })
       })
-      if (!loginRes.code) throw new Error('获取微信授权失败')
+      if (!loginRes.code) {throw new Error('获取微信授权失败')}
 
-      const user = await api.login(loginRes.code, this.data.name.trim(), this.data.gradeList[this.data.gradeIndex])
+      const user = await api.login(
+        loginRes.code,
+        this.data.name.trim(),
+        this.data.gradeList[this.data.gradeIndex]
+      )
       wx.showToast({ title: '登录成功', icon: 'success' })
       setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), 800)
     } catch (err) {
-      wx.showToast({ title: String(err).slice(0, 50), icon: 'none' })
+      showError(err)
     } finally {
       this.setData({ loading: false })
     }

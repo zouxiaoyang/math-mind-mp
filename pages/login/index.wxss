@@ -81,7 +81,9 @@
   white-space: nowrap;
 }
 
-.btn-getnick::after { border: none; }
+.btn-getnick::after {
+  border: none;
+}
 
 /* 年级选择 */
 .grade-picker {
@@ -126,7 +128,7 @@
   background: #fff;
   color: #07c160;
   font-weight: 600;
-  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.1);
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
 }
 
 /* 登录按钮 */

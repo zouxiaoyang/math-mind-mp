@@ -143,7 +143,9 @@
   border: none;
 }
 
-.btn-login::after { border: none; }
+.btn-login::after {
+  border: none;
+}
 
 /* ---- 今日目标 ---- */
 .goal-card {
@@ -245,10 +247,18 @@
   flex-shrink: 0;
 }
 
-.speed .ac-icon { background: #fff7ed; }
-.thinking .ac-icon { background: #eff6ff; }
-.generate .ac-icon { background: #f0fdf4; }
-.report .ac-icon { background: #faf5ff; }
+.speed .ac-icon {
+  background: #fff7ed;
+}
+.thinking .ac-icon {
+  background: #eff6ff;
+}
+.generate .ac-icon {
+  background: #f0fdf4;
+}
+.report .ac-icon {
+  background: #faf5ff;
+}
 
 .ac-info {
   flex: 1;

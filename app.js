@@ -16,45 +16,65 @@ App({
     this.globalData.mistakes = wx.getStorageSync('mistakes') || []
   },
 
-  getCurrentUser() { return wx.getStorageSync('userInfo') || null },
-  isLoggedIn() { return !!wx.getStorageSync('userInfo') },
+  getCurrentUser() {
+    return wx.getStorageSync('userInfo') || null
+  },
+  isLoggedIn() {
+    return !!wx.getStorageSync('userInfo')
+  },
 
   logout() {
     wx.clearStorageSync()
     this.globalData.userInfo = null
     this.globalData.token = null
     this.globalData.mistakes = []
+    wx.reLaunch({ url: '/pages/login/index' })
   },
 
   addMistake(data) {
-    const list = this.globalData.mistakes || []
-    const idx = list.findIndex(m => m.questionId === data.questionId)
+    const prev = this.globalData.mistakes || []
+    const idx = prev.findIndex((m) => m.questionId === data.questionId)
+    let next
     if (idx >= 0) {
-      list[idx].wrongCount = (list[idx].wrongCount || 1) + 1
-      list[idx].userAnswer = data.userAnswer
-      list[idx].updatedAt = new Date().toISOString()
-    } else {
-      list.unshift({
-        questionId: data.questionId,
-        content: data.content,
+      const merged = {
+        ...prev[idx],
+        wrongCount: (prev[idx].wrongCount || 1) + 1,
         userAnswer: data.userAnswer,
-        correctAnswer: data.correctAnswer,
-        wrongCount: 1,
-        createdAt: new Date().toISOString(),
-      })
+        updatedAt: new Date().toISOString(),
+      }
+      next = [...prev.slice(0, idx), merged, ...prev.slice(idx + 1)]
+    } else {
+      next = [
+        {
+          questionId: data.questionId,
+          content: data.content,
+          userAnswer: data.userAnswer,
+          correctAnswer: data.correctAnswer,
+          wrongCount: 1,
+          createdAt: new Date().toISOString(),
+        },
+        ...prev,
+      ]
     }
-    this.globalData.mistakes = list.slice(0, 50)
-    wx.setStorageSync('mistakes', this.globalData.mistakes)
+    const trimmed = next.slice(0, 50)
+    this.globalData.mistakes = trimmed
+    wx.setStorageSync('mistakes', trimmed)
   },
 
-  getMistakes() { return this.globalData.mistakes || [] },
+  getMistakes() {
+    return this.globalData.mistakes || []
+  },
   removeMistake(questionId) {
-    this.globalData.mistakes = (this.globalData.mistakes || []).filter(m => m.questionId !== questionId)
+    this.globalData.mistakes = (this.globalData.mistakes || []).filter(
+      (m) => m.questionId !== questionId
+    )
     wx.setStorageSync('mistakes', this.globalData.mistakes)
   },
   clearMistakes() {
     this.globalData.mistakes = []
     wx.removeStorageSync('mistakes')
   },
-  getMistakeCount() { return (this.globalData.mistakes || []).length },
+  getMistakeCount() {
+    return (this.globalData.mistakes || []).length
+  },
 })

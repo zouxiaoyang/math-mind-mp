@@ -13,14 +13,20 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(7, 193, 96, 0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 20% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 50%);
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(7, 193, 96, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 50%);
   animation: bgPulse 4s ease-in-out infinite;
 }
 
 @keyframes bgPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .idle-content {
@@ -63,8 +69,14 @@
 }
 
 @keyframes ringExpand {
-  0% { transform: scale(0.8); opacity: 1; }
-  100% { transform: scale(1.4); opacity: 0; }
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }
 
 .logo-core {
@@ -74,8 +86,13 @@
 }
 
 @keyframes logoBounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .title-main {
@@ -238,8 +255,13 @@
 }
 
 @keyframes timerPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .combo {
@@ -257,8 +279,13 @@
 }
 
 @keyframes comboGlow {
-  0%, 100% { box-shadow: 0 0 8rpx rgba(245, 158, 11, 0.3); }
-  50% { box-shadow: 0 0 20rpx rgba(245, 158, 11, 0.6); }
+  0%,
+  100% {
+    box-shadow: 0 0 8rpx rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20rpx rgba(245, 158, 11, 0.6);
+  }
 }
 
 .combo-flame {
@@ -267,8 +294,13 @@
 }
 
 @keyframes flameWiggle {
-  0%, 100% { transform: rotate(-5deg); }
-  50% { transform: rotate(5deg); }
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
 }
 
 .combo-text {
@@ -332,17 +364,34 @@
 }
 
 @keyframes popCorrect {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.03); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes shakeWrong {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-12rpx); }
-  40% { transform: translateX(12rpx); }
-  60% { transform: translateX(-8rpx); }
-  80% { transform: translateX(8rpx); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-12rpx);
+  }
+  40% {
+    transform: translateX(12rpx);
+  }
+  60% {
+    transform: translateX(-8rpx);
+  }
+  80% {
+    transform: translateX(8rpx);
+  }
 }
 
 .problem-inner {
@@ -402,8 +451,14 @@
 }
 
 @keyframes feedbackPop {
-  0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.5); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
 }
 
 .input-area {
@@ -556,8 +611,14 @@
 }
 
 @keyframes confettiFall {
-  0% { transform: translateY(-20rpx) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  0% {
+    transform: translateY(-20rpx) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
 }
 
 .result-content {
@@ -577,8 +638,14 @@
 }
 
 @keyframes badgeReveal {
-  0% { transform: scale(0) rotate(-30deg); opacity: 0; }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0% {
+    transform: scale(0) rotate(-30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .result-score {
@@ -590,9 +657,17 @@
 }
 
 @keyframes scoreCount {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .result-unit {
@@ -615,8 +690,14 @@
 }
 
 @keyframes fadeUp {
-  0% { transform: translateY(30rpx); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(30rpx);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .stat-item {

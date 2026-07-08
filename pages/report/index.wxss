@@ -62,8 +62,12 @@
   transition: height 0.3s;
 }
 
-.bar-fill.correct { background: #10b981; }
-.bar-fill.wrong { background: #ef4444; }
+.bar-fill.correct {
+  background: #10b981;
+}
+.bar-fill.wrong {
+  background: #ef4444;
+}
 
 .chart-legend {
   display: flex;
@@ -86,8 +90,12 @@
   border-radius: 4rpx;
 }
 
-.legend-dot.correct { background: #10b981; }
-.legend-dot.wrong { background: #ef4444; }
+.legend-dot.correct {
+  background: #10b981;
+}
+.legend-dot.wrong {
+  background: #ef4444;
+}
 
 /* 常见错误标签 */
 .mistakes-list {
@@ -125,7 +133,9 @@
   text-align: center;
 }
 
-.btn-go-mistakes::after { border: none; }
+.btn-go-mistakes::after {
+  border: none;
+}
 
 /* 能力徽章 */
 .ability-badge {

@@ -1,4 +1,5 @@
 const api = require('../../utils/api')
+const { loginState } = require('../../utils/auth')
 
 Page({
   data: {
@@ -15,25 +16,25 @@ Page({
     ],
     showAnswer: {},
   },
+  _loaded: true,
+  onUnload() {
+    this._loaded = false
+  },
 
-  onShow() { this.loadData() },
+  onShow() {
+    this.loadData()
+  },
 
   loadData() {
-    const user = api.getCurrentUser()
-    this.setData({ hasLogin: !!user })
-    if (!user) return
+    const { hasLogin, user } = loginState()
+    this.setData({ hasLogin })
+    if (!user) {return}
 
     api.getMistakes().then((list) => {
-      let mistakes = []
-      if (list && list.length > 0) {
-        mistakes = list
-      } else {
-        mistakes = getApp().getMistakes()
-      }
-      // 预处理数据
-      mistakes = mistakes.map((m) => {
+      if (!this._loaded) {return}
+      const mistakes = (list || []).map((m) => {
         m.stars = []
-        for (let i = 0; i < (m.difficulty || 3); i++) m.stars.push(i)
+        for (let i = 0; i < (m.difficulty || 3); i++) {m.stars.push(i)}
         m.subjectLabel = this.getSubjectLabel(m.subject)
         return m
       })
@@ -43,7 +44,12 @@ Page({
   },
 
   getSubjectLabel(subject) {
-    const map = { NUMBER_ALGEBRA: '数与代数', GEOMETRY: '图形几何', STATISTICS: '统计概率', PRACTICE: '综合实践' }
+    const map = {
+      NUMBER_ALGEBRA: '数与代数',
+      GEOMETRY: '图形几何',
+      STATISTICS: '统计概率',
+      PRACTICE: '综合实践',
+    }
     return map[subject] || '其他'
   },
 
@@ -52,7 +58,7 @@ Page({
     if (activeFilter === 'all') {
       this.setData({ filteredMistakes: mistakes })
     } else {
-      this.setData({ filteredMistakes: mistakes.filter(m => m.subject === activeFilter) })
+      this.setData({ filteredMistakes: mistakes.filter((m) => m.subject === activeFilter) })
     }
   },
 
@@ -90,6 +96,10 @@ Page({
     })
   },
 
-  goLogin() { wx.navigateTo({ url: '/pages/login/index' }) },
-  goPractice() { wx.navigateTo({ url: '/pages/thinking/index' }) },
+  goLogin() {
+    wx.navigateTo({ url: '/pages/login/index' })
+  },
+  goPractice() {
+    wx.navigateTo({ url: '/pages/thinking/index' })
+  },
 })

@@ -1,20 +1,5 @@
-const BASE_URL = 'https://api.jiuyuefunds.com'
-
-function apiRequest(url, data, method) {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      url: `${BASE_URL}${url}`,
-      method: method || (data ? 'POST' : 'GET'),
-      data: data || {},
-      header: { 'Content-Type': 'application/json' },
-      success: (res) => {
-        if (res.data && res.data.success) resolve(res.data)
-        else reject(res.data?.error || '请求失败')
-      },
-      fail: (err) => reject(err.errMsg || '网络错误'),
-    })
-  })
-}
+const api = require('../../utils/api')
+const { showError } = require('../../utils/toast')
 
 Page({
   data: {
@@ -38,6 +23,10 @@ Page({
     fromMistakes: false,
     mistakeQuestionId: '',
   },
+  _loaded: true,
+  onUnload() {
+    this._loaded = false
+  },
 
   onLoad(options) {
     // 如果是从错题本跳转来的，加载指定题目
@@ -50,9 +39,9 @@ Page({
   async loadSingleQuestion(questionId) {
     this.setData({ loading: true })
     try {
-      const res = await apiRequest('/api/questions/' + questionId, null, 'GET')
-      if (res.success && res.data) {
-        const q = res.data
+      const q = await api.getQuestionById(questionId)
+      if (!this._loaded) {return}
+      if (q) {
         this.setData({
           questions: [q],
           currentIdx: 0,
@@ -66,31 +55,35 @@ Page({
         wx.showToast({ title: '题目加载失败', icon: 'none' })
       }
     } catch (err) {
-      wx.showToast({ title: String(err).slice(0, 50), icon: 'none' })
+      showError(err)
     } finally {
-      this.setData({ loading: false })
+      if (this._loaded) {this.setData({ loading: false })}
     }
   },
 
-  onGradeChange(e) { this.setData({ grade: parseInt(e.detail.value) + 1 }) },
-  onSemesterChange(e) { this.setData({ semester: parseInt(e.detail.value) + 1 }) },
-  
+  onGradeChange(e) {
+    this.setData({ grade: parseInt(e.detail.value) + 1 })
+  },
+  onSemesterChange(e) {
+    this.setData({ semester: parseInt(e.detail.value) + 1 })
+  },
+
   onDifficultyChange(e) {
     const idx = parseInt(e.detail.value)
-    const d = idx  // 索引即难度值：0=全部, 1=★, 2=★★, ...
-    this.setData({ 
+    const d = idx // 索引即难度值：0=全部, 1=★, 2=★★, ...
+    this.setData({
       difficultyIndex: idx,
-      difficulty: d, 
-      stars: d > 0 ? '★'.repeat(d) : '' 
+      difficulty: d,
+      stars: d > 0 ? '★'.repeat(d) : '',
     })
   },
 
   onCountChange(e) {
     const idx = parseInt(e.detail.value)
     const counts = [1, 3, 5, 10]
-    this.setData({ 
+    this.setData({
       countIndex: idx,
-      count: counts[idx] 
+      count: counts[idx],
     })
   },
 
@@ -98,19 +91,18 @@ Page({
   async previewPool() {
     this.setData({ loading: true })
     try {
-      const params = new URLSearchParams({
+      const res = await api.getQuestions({
         grade: this.data.grade,
         semester: this.data.semester,
+        difficulty: this.data.difficulty || '',
         limit: '1',
       })
-      if (this.data.difficulty) params.set('difficulty', this.data.difficulty)
-      
-      const res = await apiRequest(`/api/exams?${params.toString()}`, null, 'GET')
-      this.setData({ poolSize: res.data ? res.data.length : 0 })
+      if (!this._loaded) {return}
+      this.setData({ poolSize: res && res.data ? res.data.length : 0 })
     } catch (err) {
-      console.log('Preview error:', err)
+      wx.showToast({ title: '题目预览失败，可尝试开始', icon: 'none' })
     } finally {
-      this.setData({ loading: false })
+      if (this._loaded) {this.setData({ loading: false })}
     }
   },
 
@@ -118,15 +110,14 @@ Page({
   async startTraining() {
     this.setData({ loading: true })
     try {
-      const user = wx.getStorageSync('userInfo')
-      const res = await apiRequest('/api/exams', {
+      const res = await api.createExam({
         grade: this.data.grade,
         semester: this.data.semester,
         difficulty: this.data.difficulty || null,
         count: this.data.count,
-        userId: user ? user.id : null,
       })
 
+      if (!this._loaded) {return}
       if (res.data.questions.length > 0) {
         this.setData({
           questions: res.data.questions,
@@ -139,28 +130,34 @@ Page({
         wx.showToast({ title: '暂无可用题目', icon: 'none' })
       }
     } catch (err) {
-      wx.showToast({ title: String(err).slice(0, 50), icon: 'none' })
+      showError(err)
     } finally {
-      this.setData({ loading: false })
+      if (this._loaded) {this.setData({ loading: false })}
     }
   },
 
-  onAnswerInput(e) { this.setData({ answer: e.detail.value }) },
+  onAnswerInput(e) {
+    this.setData({ answer: e.detail.value })
+  },
 
   async submitAnswer() {
-    if (this.data.submitting || this.data.submitted) return
+    if (this.data.submitting || this.data.submitted) {return}
     const { questions, currentIdx, answer } = this.data
-    if (!questions[currentIdx] || !answer.trim()) return
+    if (!questions[currentIdx] || !answer.trim()) {return}
     this.setData({ submitting: true })
     try {
-      const user = wx.getStorageSync('userInfo')
-      const res = await apiRequest('/api/answers', {
+      const res = await api.submitAnswer({
         questionId: questions[currentIdx].id,
         content: answer,
-        userId: user?.id || null,
       })
+      if (!this._loaded) {return}
       if (res.success) {
-        this.setData({ showAnalysis: true, submitted: true, submitting: false, analysis: { ...res.data.analysis, method: res.data.analysisMethod || 'smart_fallback' } })
+        this.setData({
+          showAnalysis: true,
+          submitted: true,
+          submitting: false,
+          analysis: { ...res.data.analysis, method: res.data.analysisMethod || 'smart_fallback' },
+        })
         if (res.data.analysis && !res.data.analysis.isCorrect && getApp()) {
           const q = questions[currentIdx]
           getApp().addMistake({
@@ -169,7 +166,12 @@ Page({
             userAnswer: answer,
             correctAnswer: q.answer,
           })
-        } else if (res.data.analysis && res.data.analysis.isCorrect && getApp() && this.data.fromMistakes) {
+        } else if (
+          res.data.analysis &&
+          res.data.analysis.isCorrect &&
+          getApp() &&
+          this.data.fromMistakes
+        ) {
           getApp().removeMistake(questions[currentIdx].id)
           wx.showToast({ title: '答对了！已从错题本移除', icon: 'success' })
         }
