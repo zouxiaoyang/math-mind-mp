@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 100rpx;
-  background: #ff0000;
+  background: #ffffff;
   display: flex;
   flex-direction: row;
   padding-bottom: env(safe-area-inset-bottom);
