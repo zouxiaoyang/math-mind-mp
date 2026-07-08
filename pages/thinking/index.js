@@ -18,14 +18,19 @@ Page({
     analysis: null,
     submitted: false,
     submitting: false,
+    progress: 0,
     loading: false,
     poolSize: 0,
     fromMistakes: false,
     mistakeQuestionId: '',
   },
   _loaded: true,
+  _progressTimer: null,
   onUnload() {
     this._loaded = false
+    if (this._progressTimer) {
+      clearInterval(this._progressTimer)
+    }
   },
 
   onLoad(options) {
@@ -40,7 +45,9 @@ Page({
     this.setData({ loading: true })
     try {
       const q = await api.getQuestionById(questionId)
-      if (!this._loaded) {return}
+      if (!this._loaded) {
+        return
+      }
       if (q) {
         this.setData({
           questions: [q],
@@ -57,7 +64,9 @@ Page({
     } catch (err) {
       showError(err)
     } finally {
-      if (this._loaded) {this.setData({ loading: false })}
+      if (this._loaded) {
+        this.setData({ loading: false })
+      }
     }
   },
 
@@ -97,12 +106,16 @@ Page({
         difficulty: this.data.difficulty || '',
         limit: '1',
       })
-      if (!this._loaded) {return}
+      if (!this._loaded) {
+        return
+      }
       this.setData({ poolSize: res && res.data ? res.data.length : 0 })
     } catch (err) {
       wx.showToast({ title: '题目预览失败，可尝试开始', icon: 'none' })
     } finally {
-      if (this._loaded) {this.setData({ loading: false })}
+      if (this._loaded) {
+        this.setData({ loading: false })
+      }
     }
   },
 
@@ -117,7 +130,9 @@ Page({
         count: this.data.count,
       })
 
-      if (!this._loaded) {return}
+      if (!this._loaded) {
+        return
+      }
       if (res.data.questions.length > 0) {
         this.setData({
           questions: res.data.questions,
@@ -132,7 +147,9 @@ Page({
     } catch (err) {
       showError(err)
     } finally {
-      if (this._loaded) {this.setData({ loading: false })}
+      if (this._loaded) {
+        this.setData({ loading: false })
+      }
     }
   },
 
@@ -140,17 +157,46 @@ Page({
     this.setData({ answer: e.detail.value })
   },
 
+  // 模拟进度:前快后慢,到 90% 等接口完成再拉到 100%
+  _startProgress() {
+    this.setData({ progress: 0 })
+    this._progressTimer = setInterval(() => {
+      const p = this.data.progress
+      const next = p < 70 ? p + 8 : p < 90 ? p + 2 : p
+      if (next >= 90) {
+        clearInterval(this._progressTimer)
+        this._progressTimer = null
+      }
+      this.setData({ progress: Math.min(next, 90) })
+    }, 500)
+  },
+  _stopProgress() {
+    if (this._progressTimer) {
+      clearInterval(this._progressTimer)
+      this._progressTimer = null
+    }
+    this.setData({ progress: 100 })
+  },
+
   async submitAnswer() {
-    if (this.data.submitting || this.data.submitted) {return}
+    if (this.data.submitting || this.data.submitted) {
+      return
+    }
     const { questions, currentIdx, answer } = this.data
-    if (!questions[currentIdx] || !answer.trim()) {return}
+    if (!questions[currentIdx] || !answer.trim()) {
+      return
+    }
     this.setData({ submitting: true })
+    this._startProgress()
     try {
       const res = await api.submitAnswer({
         questionId: questions[currentIdx].id,
         content: answer,
       })
-      if (!this._loaded) {return}
+      this._stopProgress()
+      if (!this._loaded) {
+        return
+      }
       if (res.success) {
         this.setData({
           showAnalysis: true,
@@ -177,6 +223,7 @@ Page({
         }
       }
     } catch (err) {
+      this._stopProgress()
       wx.showToast({ title: '提交失败', icon: 'none' })
       this.setData({ submitting: false })
     }

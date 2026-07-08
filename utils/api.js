@@ -3,11 +3,15 @@ const BASE_URL = 'https://api.jiuyuefunds.com'
 let loadingCount = 0
 function showLoading() {
   loadingCount++
-  if (loadingCount === 1) {wx.showLoading({ title: '加载中...', mask: true })}
+  if (loadingCount === 1) {
+    wx.showLoading({ title: '加载中...', mask: true })
+  }
 }
 function hideLoading() {
   loadingCount = Math.max(0, loadingCount - 1)
-  if (loadingCount === 0) {wx.hideLoading()}
+  if (loadingCount === 0) {
+    wx.hideLoading()
+  }
 }
 
 function request(options) {
@@ -47,8 +51,11 @@ function request(options) {
           }, 1000)
           return reject('未登录')
         }
-        if (res.data && res.data.success) {resolve(res.data)}
-        else {reject(res.data ? res.data.error : '请求失败')}
+        if (res.data && res.data.success) {
+          resolve(res.data)
+        } else {
+          reject(res.data ? res.data.error : '请求失败')
+        }
       },
       fail: function (err) {
         clearTimeout(timeout)
@@ -117,6 +124,7 @@ module.exports = {
     return request({
       url: '/api/answers',
       method: 'POST',
+      timeout: 60000,
       data: Object.assign({}, data, { userId: getUserId() }),
     })
   },
