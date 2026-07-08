@@ -9,6 +9,35 @@
   background: #fff;
 }
 
+/* 能力值标签 */
+.theta-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin-top: 24rpx;
+  padding: 16rpx 24rpx;
+  background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+  border-radius: 16rpx;
+  border: 2rpx solid #e0e7ff;
+}
+
+.theta-label {
+  font-size: 22rpx;
+  color: #6b7280;
+}
+
+.theta-value {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.theta-stars {
+  font-size: 24rpx;
+  color: #f59e0b;
+}
+
 /* AI 批改进度条 */
 .progress-wrap {
   margin-top: 24rpx;

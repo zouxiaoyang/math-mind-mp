@@ -9,6 +9,8 @@ Page({
     grade: 3,
     difficulty: 2,
     stars: '★★',
+    theta: 2.5,
+    thetaLevel: 2,
     timeLeft: 60,
     score: 0,
     streak: 0,
@@ -32,6 +34,10 @@ Page({
 
   onShow() {
     syncTabBar(this)
+    if (getApp()) {
+      const theta = getApp().getTheta()
+      this.setData({ theta: theta.toFixed(1), thetaLevel: Math.round(theta) })
+    }
   },
 
   generateProblem() {
@@ -168,6 +174,10 @@ Page({
       })
     } else {
       this.setData({ streak: 0, feedback: 'wrong' })
+    }
+    if (getApp()) {
+      const newTheta = getApp().updateTheta(isCorrect, this.data.difficulty)
+      this.setData({ theta: newTheta.toFixed(1), thetaLevel: Math.round(newTheta) })
     }
     this.setData({ totalAnswered: totalAnswered + 1 })
     setTimeout(() => this.setData({ feedback: null }), 350)

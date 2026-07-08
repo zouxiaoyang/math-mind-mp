@@ -10,6 +10,9 @@ Page({
     count: 5,
     countIndex: 2,
     stars: '★★',
+    theta: 2.5,
+    thetaLevel: 2,
+    thetaStars: '★★',
     questions: [],
     currentIdx: 0,
     questionStars: '★★',
@@ -34,11 +37,22 @@ Page({
   },
 
   onLoad(options) {
-    // 如果是从错题本跳转来的，加载指定题目
+    // 如果是从错题本跳转来的,加载指定题目
     if (options && options.questionId) {
       this.setData({ fromMistakes: true, mistakeQuestionId: options.questionId })
       this.loadSingleQuestion(options.questionId)
     }
+    // 初始化难度为当前能力值
+    const theta = getApp() ? getApp().getTheta() : 2.5
+    const rounded = Math.round(theta)
+    this.setData({
+      theta: theta.toFixed(1),
+      thetaLevel: rounded,
+      thetaStars: '★'.repeat(rounded),
+      difficulty: rounded,
+      difficultyIndex: rounded - 1,
+      stars: '★'.repeat(rounded),
+    })
   },
 
   async loadSingleQuestion(questionId) {
@@ -204,6 +218,11 @@ Page({
           submitting: false,
           analysis: { ...res.data.analysis, method: res.data.analysisMethod || 'smart_fallback' },
         })
+        if (res.data.analysis && getApp()) {
+          const q = questions[currentIdx]
+          const newTheta = getApp().updateTheta(res.data.analysis.isCorrect, q.difficulty || 3)
+          this.setData({ theta: newTheta.toFixed(1) })
+        }
         if (res.data.analysis && !res.data.analysis.isCorrect && getApp()) {
           const q = questions[currentIdx]
           getApp().addMistake({

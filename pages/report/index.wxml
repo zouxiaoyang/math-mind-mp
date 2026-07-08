@@ -86,15 +86,21 @@
       <button class="btn-go-mistakes" bindtap="goMistakes">查看错题本 ›</button>
     </view>
 
-    <!-- 能力等级 -->
+    <!-- 能力等级(IRT θ) -->
     <view class="card" style="text-align: center;">
-      <view class="section-title">能力评估</view>
-      <view class="ability-badge {{report.overview.accuracy >= 80 ? 'gold' : report.overview.accuracy >= 60 ? 'silver' : 'bronze'}}">
-        {{report.overview.accuracy >= 80 ? 'S' : report.overview.accuracy >= 60 ? 'A' : report.overview.accuracy >= 40 ? 'B' : 'C'}}
+      <view class="section-title">能力评估(IRT)</view>
+      <view class="theta-card">
+        <text class="theta-title">能力值 θ</text>
+        <text class="theta-number">{{theta}}</text>
+        <text class="theta-grade {{report.overview.accuracy >= 80 ? 'gold' : report.overview.accuracy >= 60 ? 'silver' : 'bronze'}}">
+          {{report.overview.accuracy >= 80 ? 'S' : report.overview.accuracy >= 60 ? 'A' : report.overview.accuracy >= 40 ? 'B' : 'C'}}
+        </text>
       </view>
-      <view class="text-muted mt-s">根据正确率评估</view>
-      <view style="margin-top: 16rpx; font-size: 26rpx; color: #666;">
-        {{report.overview.accuracy >= 80 ? '思维能力强，继续保持！' : report.overview.accuracy >= 60 ? '表现不错，还有提升空间' : report.overview.accuracy >= 40 ? '多加练习，你会更强' : '坚持就是胜利！'}}
+      <view class="text-muted mt-s">基于答题过程自适应估计,答对难题 θ 升,答错 θ 降</view>
+      <view class="mt-m">
+        <text class="theta-tip" wx:if="{{theta >= 4}}">🔥 超越大多数同龄人,试试更高难度</text>
+        <text class="theta-tip" wx:elif="{{theta >= 2.5}}">📈 稳步提升中,保持节奏</text>
+        <text class="theta-tip" wx:else>🌱 打好基础,从简单题开始积累信心</text>
       </view>
     </view>
   </block>

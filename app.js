@@ -4,6 +4,7 @@ App({
     userInfo: null,
     token: null,
     mistakes: [],
+    theta: 2.5,
   },
 
   onLaunch() {
@@ -14,6 +15,7 @@ App({
       this.globalData.userInfo = userInfo
     }
     this.globalData.mistakes = wx.getStorageSync('mistakes') || []
+    this.globalData.theta = wx.getStorageSync('theta') || 2.5
   },
 
   getCurrentUser() {
@@ -76,5 +78,24 @@ App({
   },
   getMistakeCount() {
     return (this.globalData.mistakes || []).length
+  },
+
+  // IRT-like θ 估计: 答对升 / 答错降, 幅度随题目-能力差距加权
+  updateTheta(isCorrect, difficulty) {
+    const theta = this.globalData.theta || 2.5
+    const d = difficulty != null ? difficulty : 3
+    let next
+    if (isCorrect) {
+      next = theta + 0.1 + 0.05 * Math.max(0, d - theta)
+    } else {
+      next = theta - 0.15 - 0.05 * Math.max(0, theta - d)
+    }
+    next = Math.max(0.5, Math.min(5.5, next))
+    this.globalData.theta = next
+    wx.setStorageSync('theta', next)
+    return next
+  },
+  getTheta() {
+    return this.globalData.theta || 2.5
   },
 })

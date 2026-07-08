@@ -724,3 +724,54 @@
   height: 60rpx;
   background: rgba(255, 255, 255, 0.1);
 }
+
+/* 能力值 */
+.theta-badge-speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin: 24rpx 0;
+  padding: 12rpx 24rpx;
+  background: rgba(7, 193, 96, 0.15);
+  border: 2rpx solid rgba(7, 193, 96, 0.3);
+  border-radius: 24rpx;
+}
+
+.theta-badge-speed .theta-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.theta-badge-speed .theta-stars {
+  font-size: 24rpx;
+  color: #f59e0b;
+}
+
+.theta-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin: 32rpx 0;
+  padding: 16rpx 24rpx;
+  background: rgba(7, 193, 96, 0.15);
+  border: 2rpx solid rgba(7, 193, 96, 0.3);
+  border-radius: 16rpx;
+}
+
+.theta-result .theta-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.theta-result .theta-value {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #07c160;
+}
+
+.theta-result .theta-stars {
+  font-size: 24rpx;
+  color: #f59e0b;
+}

@@ -9,6 +9,7 @@ Page({
     report: null,
     hasLogin: false,
     userName: '',
+    theta: 2.5,
   },
   _loaded: true,
   onUnload() {
@@ -18,6 +19,9 @@ Page({
   onShow() {
     this.checkLogin()
     syncTabBar(this)
+    if (getApp()) {
+      this.setData({ theta: getApp().getTheta().toFixed(1) })
+    }
   },
 
   checkLogin() {

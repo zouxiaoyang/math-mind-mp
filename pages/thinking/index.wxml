@@ -5,6 +5,11 @@
       <view style="font-size: 80rpx;">🧠</view>
       <view class="text-bold" style="font-size: 36rpx;">思维训练</view>
       <view class="text-muted mt-s">从题库中抽题练习</view>
+      <view class="theta-badge">
+        <text class="theta-label">能力值</text>
+        <text class="theta-value">θ {{theta}}</text>
+        <text class="theta-stars">{{thetaStars}}</text>
+      </view>
     </view>
     <view class="card">
       <view class="text-bold" style="font-size: 32rpx;">设置</view>

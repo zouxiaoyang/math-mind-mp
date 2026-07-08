@@ -137,31 +137,60 @@
   border: none;
 }
 
-/* 能力徽章 */
-.ability-badge {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  margin: 0 auto;
+/* IRT 能力值卡片 */
+.theta-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 56rpx;
+  gap: 24rpx;
+  padding: 32rpx;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+  border-radius: 24rpx;
+  border: 2rpx solid #bfdbfe;
+  max-width: 480rpx;
+}
+
+.theta-title {
+  font-size: 28rpx;
+  color: #6b7280;
+}
+
+.theta-number {
+  font-size: 64rpx;
+  font-weight: 900;
+  color: #2563eb;
+  line-height: 1;
+}
+
+.theta-grade {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
   font-weight: 900;
   color: #fff;
 }
 
-.ability-badge.gold {
+.theta-grade.gold {
   background: linear-gradient(135deg, #f59e0b, #d97706);
-  box-shadow: 0 4rpx 20rpx rgba(245, 158, 11, 0.4);
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.4);
 }
 
-.ability-badge.silver {
+.theta-grade.silver {
   background: linear-gradient(135deg, #6b7280, #4b5563);
-  box-shadow: 0 4rpx 20rpx rgba(107, 114, 128, 0.4);
+  box-shadow: 0 4rpx 16rpx rgba(107, 114, 128, 0.4);
 }
 
-.ability-badge.bronze {
+.theta-grade.bronze {
   background: linear-gradient(135deg, #d97706, #b45309);
-  box-shadow: 0 4rpx 20rpx rgba(217, 119, 6, 0.4);
+  box-shadow: 0 4rpx 16rpx rgba(217, 119, 6, 0.4);
+}
+
+.theta-tip {
+  font-size: 24rpx;
+  color: #6b7280;
 }
