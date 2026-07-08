@@ -103,7 +103,6 @@
         </view>
         <view class="progress-label">{{progress < 90 ? 'AI 正在分析你的解题步骤...' : '即将给出评语...'}}</view>
       </view>
-      <button wx:else class="btn-primary" style="margin-top: 32rpx; width: 100%; opacity: 0.5; background: #9ca3af;" disabled="{{true}}">已提交 ✓</button>
     </view>
   </block>
 </view>
