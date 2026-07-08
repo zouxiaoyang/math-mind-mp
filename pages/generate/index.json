@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "AI 出题"
+  "navigationBarTitleText": "AI 出题",
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
 }

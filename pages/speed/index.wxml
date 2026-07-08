@@ -142,4 +142,5 @@
       </button>
     </view>
   </block>
+  <custom-tab-bar></custom-tab-bar>
 </view>

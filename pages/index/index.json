@@ -1,1 +1,6 @@
-{ "navigationBarTitleText": "学习" }
+{
+  "navigationBarTitleText": "学习",
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
+}

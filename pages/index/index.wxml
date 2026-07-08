@@ -109,4 +109,5 @@
     </view>
     <view class="mr-go">去复习 ›</view>
   </view>
+  <custom-tab-bar></custom-tab-bar>
 </view>

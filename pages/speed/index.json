@@ -1,1 +1,6 @@
-{ "navigationBarTitleText": "速算小达人" }
+{
+  "navigationBarTitleText": "速算小达人",
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
+}

@@ -55,4 +55,5 @@
       <text style="font-size: 28rpx;">{{item.title}}</text>
     </view>
   </view>
+  <custom-tab-bar></custom-tab-bar>
 </view>

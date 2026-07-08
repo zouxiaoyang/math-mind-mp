@@ -150,4 +150,5 @@
       <view class="share-hint">点击右上角「···」也可分享</view>
     </view>
   </view>
+  <custom-tab-bar></custom-tab-bar>
 </view>
