@@ -3,3 +3,4 @@ miniprogram_npm/
 dist/
 build/
 *.wxapkg
+*.wxml

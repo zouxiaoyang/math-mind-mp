@@ -29,6 +29,14 @@
     {{loading ? '⏳ 生成中...' : '✨ 一键生成 ' + count + ' 题'}}
   </button>
 
+  <!-- AI 生成进度条 -->
+  <view wx:if="{{loading}}" class="progress-wrap">
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{progress}}%;"></view>
+    </view>
+    <view class="progress-label">{{progress < 90 ? 'AI 正在思考...' : '即将完成...'}}</view>
+  </view>
+
   <view class="card" wx:if="{{result}}">
     <view class="text-bold" style="font-size: 32rpx;">生成结果</view>
     <view class="flex-between mt-m">

@@ -9,8 +9,10 @@ Page({
     count: 5,
     stars: '★★',
     loading: false,
+    progress: 0,
     result: null,
   },
+  _progressTimer: null,
 
   onGradeChange(e) {
     this.setData({ grade: parseInt(e.detail.value) + 1 })
@@ -27,9 +29,34 @@ Page({
     this.setData({ count: c })
   },
 
+  // 模拟进度:前快后慢,到 90% 等接口完成再拉到 100%
+  _startProgress() {
+    this.setData({ progress: 0 })
+    this._progressTimer = setInterval(() => {
+      const p = this.data.progress
+      // 0→70 快,70→90 慢,90 以上等接口
+      const next = p < 70 ? p + 8 : p < 90 ? p + 2 : p
+      if (next >= 90) {
+        clearInterval(this._progressTimer)
+        this._progressTimer = null
+      }
+      this.setData({ progress: Math.min(next, 90) })
+    }, 500)
+  },
+  _stopProgress() {
+    if (this._progressTimer) {
+      clearInterval(this._progressTimer)
+      this._progressTimer = null
+    }
+    this.setData({ progress: 100 })
+  },
+
   async handleGenerate() {
-    if (this.data.loading) {return}
+    if (this.data.loading) {
+      return
+    }
     this.setData({ loading: true, result: null })
+    this._startProgress()
     try {
       const res = await api.generateQuestions({
         grade: this.data.grade,
@@ -37,12 +64,20 @@ Page({
         difficulty: this.data.difficulty,
         count: this.data.count,
       })
+      this._stopProgress()
       this.setData({ result: res.results })
       wx.showToast({ title: `成功生成 ${res.results.created} 题`, icon: 'success' })
     } catch (err) {
+      this._stopProgress()
       showError(err)
     } finally {
       this.setData({ loading: false })
+    }
+  },
+
+  onUnload() {
+    if (this._progressTimer) {
+      clearInterval(this._progressTimer)
     }
   },
 
