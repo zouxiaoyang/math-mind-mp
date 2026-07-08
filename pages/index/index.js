@@ -2,6 +2,7 @@ const api = require('../../utils/api')
 const { makeShareHandler } = require('../../utils/share')
 const { showError } = require('../../utils/toast')
 const { loginState } = require('../../utils/auth')
+const { syncTabBar } = require('../../utils/tabbar')
 
 Page({
   data: {
@@ -25,16 +26,23 @@ Page({
       this.loadStats()
       this.setData({ mistakeCount: getApp().getMistakeCount() })
     }
+    syncTabBar(this)
   },
 
   setGreeting() {
     const h = new Date().getHours()
     let g = '你好'
-    if (h < 6) {g = '凌晨好'}
-    else if (h < 12) {g = '早上好'}
-    else if (h < 14) {g = '中午好'}
-    else if (h < 18) {g = '下午好'}
-    else {g = '晚上好'}
+    if (h < 6) {
+      g = '凌晨好'
+    } else if (h < 12) {
+      g = '早上好'
+    } else if (h < 14) {
+      g = '中午好'
+    } else if (h < 18) {
+      g = '下午好'
+    } else {
+      g = '晚上好'
+    }
     this.setData({ greeting: g })
   },
 
@@ -65,10 +73,18 @@ Page({
   calcLevel(total, accuracy) {
     // 根据答题量和正确率计算等级
     const score = total * (accuracy / 100)
-    if (score >= 500) {return 5}
-    if (score >= 200) {return 4}
-    if (score >= 100) {return 3}
-    if (score >= 30) {return 2}
+    if (score >= 500) {
+      return 5
+    }
+    if (score >= 200) {
+      return 4
+    }
+    if (score >= 100) {
+      return 3
+    }
+    if (score >= 30) {
+      return 2
+    }
     return 1
   },
 

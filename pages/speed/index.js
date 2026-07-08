@@ -1,6 +1,7 @@
 const api = require('../../utils/api')
 const { playTap } = require('../../utils/sound')
 const { showError } = require('../../utils/toast')
+const { syncTabBar } = require('../../utils/tabbar')
 
 Page({
   data: {
@@ -24,7 +25,13 @@ Page({
 
   onUnload() {
     this._loaded = false
-    if (this.timer) {clearInterval(this.timer)}
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+  },
+
+  onShow() {
+    syncTabBar(this)
   },
 
   generateProblem() {
@@ -79,7 +86,9 @@ Page({
       correctCount: 0,
       startTime,
     })
-    if (this.timer) {clearInterval(this.timer)}
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
     this.timer = setInterval(() => {
       if (this.data.timeLeft <= 0) {
         clearInterval(this.timer)
@@ -95,9 +104,13 @@ Page({
   },
 
   async saveResult(startTime) {
-    if (!this._loaded) {return}
+    if (!this._loaded) {
+      return
+    }
     const { score, correctCount, totalAnswered, maxStreak, difficulty } = this.data
-    if (totalAnswered === 0) {return}
+    if (totalAnswered === 0) {
+      return
+    }
     try {
       const timeSpent = Math.round((Date.now() - startTime) / 1000)
       await api.saveSpeedResult({
@@ -121,13 +134,17 @@ Page({
     playTap()
     const key = e.currentTarget.dataset.key
     const input = this.data.input + key
-    if (input.length <= 5) {this.setData({ input })}
+    if (input.length <= 5) {
+      this.setData({ input })
+    }
   },
 
   onBackspace() {
     playTap()
     const input = this.data.input
-    if (input.length > 0) {this.setData({ input: input.slice(0, -1) })}
+    if (input.length > 0) {
+      this.setData({ input: input.slice(0, -1) })
+    }
   },
 
   focusInput() {
@@ -136,7 +153,9 @@ Page({
 
   submitAnswer() {
     const { problem, input, streak, totalAnswered, correctCount, maxStreak } = this.data
-    if (!problem || !input.trim()) {return}
+    if (!problem || !input.trim()) {
+      return
+    }
     const isCorrect = parseInt(input, 10) === problem.answer
     if (isCorrect) {
       const newStreak = streak + 1

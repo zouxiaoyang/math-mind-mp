@@ -1,5 +1,6 @@
 const api = require('../../utils/api')
 const { showError } = require('../../utils/toast')
+const { syncTabBar } = require('../../utils/tabbar')
 
 Page({
   data: {
@@ -13,6 +14,10 @@ Page({
     result: null,
   },
   _progressTimer: null,
+
+  onShow() {
+    syncTabBar(this)
+  },
 
   onGradeChange(e) {
     this.setData({ grade: parseInt(e.detail.value) + 1 })

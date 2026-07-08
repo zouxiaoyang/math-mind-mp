@@ -2,6 +2,7 @@ const api = require('../../utils/api')
 const { makeShareHandler, enableShare } = require('../../utils/share')
 const { showError } = require('../../utils/toast')
 const { loginState } = require('../../utils/auth')
+const { syncTabBar } = require('../../utils/tabbar')
 
 Page({
   data: {
@@ -31,7 +32,10 @@ Page({
       userName: userName || '同学',
       mistakeCount: getApp().getMistakeCount(),
     })
-    if (user) {this.loadStats()}
+    if (user) {
+      this.loadStats()
+    }
+    syncTabBar(this)
   },
 
   async loadStats() {
@@ -53,10 +57,18 @@ Page({
 
   calcLevel(total, accuracy) {
     const score = total * (accuracy / 100)
-    if (score >= 500) {return 5}
-    if (score >= 200) {return 4}
-    if (score >= 100) {return 3}
-    if (score >= 30) {return 2}
+    if (score >= 500) {
+      return 5
+    }
+    if (score >= 200) {
+      return 4
+    }
+    if (score >= 100) {
+      return 3
+    }
+    if (score >= 30) {
+      return 2
+    }
     return 1
   },
 
@@ -66,7 +78,9 @@ Page({
       content: '退出后将清除登录信息',
       success: (res) => {
         if (res.confirm) {
-          if (getApp()) {getApp().logout()}
+          if (getApp()) {
+            getApp().logout()
+          }
           this.setData({ userInfo: null, hasLogin: false, totalAnswers: 0, accuracy: 0 })
         }
       },

@@ -17,31 +17,17 @@
     "backgroundColor": "#f7f7f7"
   },
   "tabBar": {
+    "custom": true,
     "color": "#999999",
     "selectedColor": "#07C160",
     "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "学习"
-      },
-      {
-        "pagePath": "pages/speed/index",
-        "text": "速算"
-      },
-      {
-        "pagePath": "pages/report/index",
-        "text": "报告"
-      },
-      {
-        "pagePath": "pages/generate/index",
-        "text": "出题"
-      },
-      {
-        "pagePath": "pages/profile/index",
-        "text": "我的"
-      }
+      { "pagePath": "pages/index/index", "text": "学习" },
+      { "pagePath": "pages/speed/index", "text": "速算" },
+      { "pagePath": "pages/report/index", "text": "报告" },
+      { "pagePath": "pages/generate/index", "text": "出题" },
+      { "pagePath": "pages/profile/index", "text": "我的" }
     ]
   },
   "style": "v2",
