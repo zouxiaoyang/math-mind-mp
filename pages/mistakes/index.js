@@ -28,19 +28,70 @@ Page({
   loadData() {
     const { hasLogin, user } = loginState()
     this.setData({ hasLogin })
-    if (!user) {return}
+    if (!user) {
+      return
+    }
 
-    api.getMistakes().then((list) => {
-      if (!this._loaded) {return}
-      const mistakes = (list || []).map((m) => {
-        m.stars = []
-        for (let i = 0; i < (m.difficulty || 3); i++) {m.stars.push(i)}
-        m.subjectLabel = this.getSubjectLabel(m.subject)
-        return m
-      })
-      this.setData({ mistakes })
+    // 读本地错题(与首页错题数同数据源,强一致)
+    const localMistakes = getApp().getMistakes()
+    if (!this._loaded) {
+      return
+    }
+
+    // 按 questionId 补全题目详情(difficulty, subject 等)
+    const ids = localMistakes.map((m) => m.questionId).filter(Boolean)
+    if (ids.length === 0) {
+      this.setData({ mistakes: [] })
       this.applyFilter()
-    })
+      return
+    }
+
+    api
+      .getQuestions({ ids: ids.join(',') })
+      .then((res) => {
+        if (!this._loaded) {
+          return
+        }
+        const questionMap = {}
+        ;(res.data || []).forEach((q) => {
+          questionMap[q.id] = q
+        })
+        const mistakes = localMistakes.map((m) => {
+          const q = questionMap[m.questionId] || {}
+          const difficulty = q.difficulty || m.difficulty || 3
+          const stars = []
+          for (let i = 0; i < difficulty; i++) {
+            stars.push(i)
+          }
+          return {
+            ...m,
+            difficulty,
+            subject: q.subject || m.subject || 'NUMBER_ALGEBRA',
+            stars,
+            subjectLabel: this.getSubjectLabel(q.subject || m.subject || 'NUMBER_ALGEBRA'),
+          }
+        })
+        this.setData({ mistakes })
+        this.applyFilter()
+      })
+      .catch(() => {
+        // 接口失败降级:直接用本地数据
+        const mistakes = localMistakes.map((m) => {
+          const difficulty = m.difficulty || 3
+          const stars = []
+          for (let i = 0; i < difficulty; i++) {
+            stars.push(i)
+          }
+          return {
+            ...m,
+            difficulty,
+            stars,
+            subjectLabel: this.getSubjectLabel(m.subject || 'NUMBER_ALGEBRA'),
+          }
+        })
+        this.setData({ mistakes })
+        this.applyFilter()
+      })
   },
 
   getSubjectLabel(subject) {

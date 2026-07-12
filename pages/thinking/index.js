@@ -34,7 +34,6 @@ Page({
       { key: 'APPLICATION', label: '应用题', active: true },
     ],
     selectedTypes: ['CHOICE', 'JUDGE', 'CALCULATION', 'APPLICATION'],
-    optLetters: ['A', 'B', 'C', 'D'],
   },
   _loaded: true,
   _progressTimer: null,
@@ -145,7 +144,9 @@ Page({
 
   toggleType(e) {
     const type = e.currentTarget.dataset.type
-    if (!type) {return}
+    if (!type) {
+      return
+    }
     const selected = this.data.selectedTypes
     const idx = selected.indexOf(type)
     let next
@@ -203,19 +204,25 @@ Page({
   },
 
   parseQuestion(q) {
-    if (q.type !== 'CHOICE') {return q}
+    if (q.type !== 'CHOICE') {
+      return q
+    }
     // 后端已解析 options,直接使用
     if (q.options && Object.keys(q.options).length >= 2) {
       return q
     }
     // 兜底:content 里仍包含选项行,客户端解析
-    if (!q.content) {return q}
+    if (!q.content) {
+      return q
+    }
     const optPattern = /^([A-D])[．.、:：)）\]\s]+(.+)$/
     const options = {}
     const stemLines = []
     for (const line of q.content.split('\n')) {
       const trimmed = line.trim()
-      if (!trimmed) {continue}
+      if (!trimmed) {
+        continue
+      }
       const m = trimmed.match(optPattern)
       if (m) {
         options[m[1]] = m[2].trim()
@@ -224,7 +231,7 @@ Page({
       }
     }
     if (Object.keys(options).length >= 2) {
-      return { ...q, stem: stemLines.join('\n'), options }
+      return { ...q, stem: stemLines.join('\n'), options, optKeys: Object.keys(options) }
     }
     return q
   },
@@ -234,7 +241,9 @@ Page({
   },
 
   selectOption(e) {
-    if (this.data.submitted) {return}
+    if (this.data.submitted) {
+      return
+    }
     const opt = e.currentTarget.dataset.opt
     const q = this.data.questions[this.data.currentIdx]
     if (q.type === 'JUDGE') {
@@ -271,9 +280,13 @@ Page({
     }
     const { questions, currentIdx, answer, selectedOption } = this.data
     const q = questions[currentIdx]
-    if (!q) {return}
+    if (!q) {
+      return
+    }
     if (q.type === 'CHOICE' || q.type === 'JUDGE') {
-      if (!selectedOption) {return}
+      if (!selectedOption) {
+        return
+      }
     } else if (!answer.trim()) {
       return
     }
