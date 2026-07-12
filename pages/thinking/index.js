@@ -17,6 +17,7 @@ Page({
     currentIdx: 0,
     questionStars: '★★',
     answer: '',
+    selectedOption: '',
     showAnalysis: false,
     analysis: null,
     submitted: false,
@@ -26,6 +27,14 @@ Page({
     poolSize: 0,
     fromMistakes: false,
     mistakeQuestionId: '',
+    questionTypes: [
+      { key: 'CHOICE', label: '选择题', active: true },
+      { key: 'JUDGE', label: '判断题', active: true },
+      { key: 'CALCULATION', label: '计算题', active: true },
+      { key: 'APPLICATION', label: '应用题', active: true },
+    ],
+    selectedTypes: ['CHOICE', 'JUDGE', 'CALCULATION', 'APPLICATION'],
+    optLetters: ['A', 'B', 'C', 'D'],
   },
   _loaded: true,
   _progressTimer: null,
@@ -63,10 +72,11 @@ Page({
         return
       }
       if (q) {
+        const parsed = this.parseQuestion(q)
         this.setData({
-          questions: [q],
+          questions: [parsed],
           currentIdx: 0,
-          questionStars: '★'.repeat(q.difficulty || 3),
+          questionStars: '★'.repeat(parsed.difficulty || 3),
           answer: '',
           showAnalysis: false,
           analysis: null,
@@ -133,6 +143,28 @@ Page({
     }
   },
 
+  toggleType(e) {
+    const type = e.currentTarget.dataset.type
+    if (!type) {return}
+    const selected = this.data.selectedTypes
+    const idx = selected.indexOf(type)
+    let next
+    if (idx >= 0) {
+      if (selected.length === 1) {
+        wx.showToast({ title: '至少选择一种题型', icon: 'none' })
+        return
+      }
+      next = selected.filter((t) => t !== type)
+    } else {
+      next = [...selected, type]
+    }
+    const types = this.data.questionTypes.map((t) => ({
+      ...t,
+      active: next.indexOf(t.key) >= 0,
+    }))
+    this.setData({ selectedTypes: next, questionTypes: types })
+  },
+
   // 开始训练（从题库抽题）
   async startTraining() {
     this.setData({ loading: true })
@@ -142,17 +174,20 @@ Page({
         semester: this.data.semester,
         difficulty: this.data.difficulty || null,
         count: this.data.count,
+        types: this.data.selectedTypes,
       })
 
       if (!this._loaded) {
         return
       }
       if (res.data.questions.length > 0) {
+        const qs = res.data.questions.map((q) => this.parseQuestion(q))
         this.setData({
-          questions: res.data.questions,
+          questions: qs,
           currentIdx: 0,
-          questionStars: '★'.repeat(res.data.questions[0].difficulty || 3),
+          questionStars: '★'.repeat(qs[0].difficulty || 3),
           answer: '',
+          selectedOption: '',
           showAnalysis: false,
         })
       } else {
@@ -167,8 +202,46 @@ Page({
     }
   },
 
+  parseQuestion(q) {
+    if (q.type !== 'CHOICE') {return q}
+    // 后端已解析 options,直接使用
+    if (q.options && Object.keys(q.options).length >= 2) {
+      return q
+    }
+    // 兜底:content 里仍包含选项行,客户端解析
+    if (!q.content) {return q}
+    const optPattern = /^([A-D])[．.、:：)）\]\s]+(.+)$/
+    const options = {}
+    const stemLines = []
+    for (const line of q.content.split('\n')) {
+      const trimmed = line.trim()
+      if (!trimmed) {continue}
+      const m = trimmed.match(optPattern)
+      if (m) {
+        options[m[1]] = m[2].trim()
+      } else {
+        stemLines.push(line.trim())
+      }
+    }
+    if (Object.keys(options).length >= 2) {
+      return { ...q, stem: stemLines.join('\n'), options }
+    }
+    return q
+  },
+
   onAnswerInput(e) {
     this.setData({ answer: e.detail.value })
+  },
+
+  selectOption(e) {
+    if (this.data.submitted) {return}
+    const opt = e.currentTarget.dataset.opt
+    const q = this.data.questions[this.data.currentIdx]
+    if (q.type === 'JUDGE') {
+      this.setData({ selectedOption: opt, answer: opt })
+    } else {
+      this.setData({ selectedOption: opt, answer: opt })
+    }
   },
 
   // 模拟进度:前快后慢,到 90% 等接口完成再拉到 100%
@@ -196,16 +269,21 @@ Page({
     if (this.data.submitting || this.data.submitted) {
       return
     }
-    const { questions, currentIdx, answer } = this.data
-    if (!questions[currentIdx] || !answer.trim()) {
+    const { questions, currentIdx, answer, selectedOption } = this.data
+    const q = questions[currentIdx]
+    if (!q) {return}
+    if (q.type === 'CHOICE' || q.type === 'JUDGE') {
+      if (!selectedOption) {return}
+    } else if (!answer.trim()) {
       return
     }
     this.setData({ submitting: true })
     this._startProgress()
     try {
       const res = await api.submitAnswer({
-        questionId: questions[currentIdx].id,
+        questionId: q.id,
         content: answer,
+        selectedOption: q.type === 'CHOICE' || q.type === 'JUDGE' ? selectedOption : undefined,
       })
       this._stopProgress()
       if (!this._loaded) {
@@ -254,6 +332,7 @@ Page({
       this.setData({
         currentIdx: next,
         answer: '',
+        selectedOption: '',
         showAnalysis: false,
         analysis: null,
         submitted: false,

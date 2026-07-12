@@ -65,3 +65,103 @@
   color: #9ca3af;
   text-align: center;
 }
+
+/* 题型标签 */
+.q-type-tag {
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  background: #fef3c7;
+  color: #d97706;
+}
+
+/* 选项按钮(选择题) */
+.opt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.opt-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 24rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #e5e7eb;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.opt-item.opt-selected {
+  border-color: #07c160;
+  background: #ecfdf5;
+}
+
+.opt-letter {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 28rpx;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.opt-selected .opt-letter {
+  background: #07c160;
+  color: #fff;
+}
+
+.opt-text {
+  font-size: 30rpx;
+  color: #374151;
+  flex: 1;
+}
+
+.opt-text-empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* 判断题按钮 */
+.judge-list {
+  display: flex;
+  gap: 24rpx;
+}
+
+.judge-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 32rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #e5e7eb;
+  background: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.judge-icon {
+  font-size: 40rpx;
+}
+
+.judge-selected.judge-correct {
+  border-color: #07c160;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.judge-selected.judge-wrong {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #dc2626;
+}

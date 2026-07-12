@@ -231,3 +231,26 @@ page {
     background-position: -200% 0;
   }
 }
+
+/* ---- 题型多选 chips(全局共享) ---- */
+.type-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+.type-chip {
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  background: #f3f4f6;
+  font-size: 26rpx;
+  color: #6b7280;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+.type-chip.active {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #059669;
+  font-weight: 600;
+}

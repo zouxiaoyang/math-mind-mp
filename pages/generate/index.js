@@ -12,6 +12,13 @@ Page({
     loading: false,
     progress: 0,
     result: null,
+    questionTypes: [
+      { key: 'CHOICE', label: '选择题', active: true },
+      { key: 'JUDGE', label: '判断题', active: true },
+      { key: 'CALCULATION', label: '计算题', active: true },
+      { key: 'APPLICATION', label: '应用题', active: true },
+    ],
+    selectedTypes: ['CHOICE', 'JUDGE', 'CALCULATION', 'APPLICATION'],
   },
   _progressTimer: null,
 
@@ -56,6 +63,28 @@ Page({
     this.setData({ progress: 100 })
   },
 
+  toggleType(e) {
+    const type = e.currentTarget.dataset.type
+    if (!type) {return}
+    const selected = this.data.selectedTypes
+    const idx = selected.indexOf(type)
+    let next
+    if (idx >= 0) {
+      if (selected.length === 1) {
+        wx.showToast({ title: '至少选择一种题型', icon: 'none' })
+        return
+      }
+      next = selected.filter((t) => t !== type)
+    } else {
+      next = [...selected, type]
+    }
+    const types = this.data.questionTypes.map((t) => ({
+      ...t,
+      active: next.indexOf(t.key) >= 0,
+    }))
+    this.setData({ selectedTypes: next, questionTypes: types })
+  },
+
   async handleGenerate() {
     if (this.data.loading) {
       return
@@ -68,6 +97,7 @@ Page({
         semester: this.data.semester,
         difficulty: this.data.difficulty,
         count: this.data.count,
+        types: this.data.selectedTypes,
       })
       this._stopProgress()
       this.setData({ result: res.results })

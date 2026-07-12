@@ -30,6 +30,15 @@
         <picker mode="selector" range="{{[1,3,5,10]}}" value="{{countIndex}}" bindchange="onCountChange">{{count}}题 ›</picker>
       </view>
     </view>
+    <!-- 题型选择 -->
+    <view class="card">
+      <view class="text-bold" style="font-size: 28rpx; margin-bottom: 12rpx;">题型(可多选)</view>
+      <view class="type-chips">
+        <view wx:for="{{questionTypes}}" wx:key="key" class="type-chip {{item.active ? 'active' : ''}}" data-type="{{item.key}}" bindtap="toggleType">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
     <button class="btn-primary" style="width: 100%;" bindtap="startTraining" loading="{{loading}}">🚀 开始训练</button>
   </block>
 
@@ -93,14 +102,41 @@
     <view class="card">
       <view class="flex-between" style="margin-bottom: 16rpx;">
         <text class="text-muted">第 {{currentIdx + 1}} / {{questions.length}} 题</text>
-        <text class="difficulty-tag">{{questionStars}}</text>
+        <view class="flex gap-s">
+          <text class="q-type-tag">{{questions[currentIdx].type === 'CHOICE' ? '选择题' : questions[currentIdx].type === 'JUDGE' ? '判断题' : questions[currentIdx].type === 'CALCULATION' ? '计算题' : questions[currentIdx].type === 'APPLICATION' ? '应用题' : '题目'}}</text>
+          <text class="difficulty-tag">{{questionStars}}</text>
+        </view>
       </view>
       <view class="text-bold" style="font-size: 32rpx; margin-bottom: 16rpx;">{{questions[currentIdx].title}}</view>
-      <view style="font-size: 28rpx; line-height: 1.6;">{{questions[currentIdx].content}}</view>
-      
+      <view style="font-size: 28rpx; line-height: 1.6;">{{questions[currentIdx].stem || questions[currentIdx].content}}</view>
     </view>
     <view class="card" style="margin-top: 24rpx;">
-      <textarea class="input" placeholder="请输入你的答案..." value="{{answer}}" bindinput="onAnswerInput" style="border: 2rpx solid #ddd; border-radius: 12rpx; padding: 24rpx; height: 500rpx; font-size: 32rpx; width: 100%; box-sizing: border-box;" />
+      <!-- 选择题: 选项按钮 -->
+      <block wx:if="{{questions[currentIdx].type === 'CHOICE'}}">
+        <view class="opt-list">
+          <view wx:for="{{optLetters}}" wx:key="*this" class="opt-item {{selectedOption === item ? 'opt-selected' : ''}}" data-opt="{{item}}" bindtap="selectOption">
+            <view class="opt-letter">{{item}}</view>
+            <text wx:if="{{questions[currentIdx].options[item]}}" class="opt-text">{{questions[currentIdx].options[item]}}</text>
+            <text wx:else class="opt-text opt-text-empty">选项{{item}}</text>
+          </view>
+        </view>
+      </block>
+      <block wx:elif="{{questions[currentIdx].type === 'JUDGE'}}">
+        <view class="judge-list">
+          <view class="judge-item {{selectedOption === '对' ? 'judge-selected judge-correct' : ''}}" data-opt="对" bindtap="selectOption">
+            <text class="judge-icon">✓</text>
+            <text>对</text>
+          </view>
+          <view class="judge-item {{selectedOption === '错' ? 'judge-selected judge-wrong' : ''}}" data-opt="错" bindtap="selectOption">
+            <text class="judge-icon">✗</text>
+            <text>错</text>
+          </view>
+        </view>
+      </block>
+      <!-- 计算题/应用题: 文本输入 -->
+      <block wx:else>
+        <textarea class="input" placeholder="请输入你的答案..." value="{{answer}}" bindinput="onAnswerInput" style="border: 2rpx solid #ddd; border-radius: 12rpx; padding: 24rpx; height: 500rpx; font-size: 32rpx; width: 100%; box-sizing: border-box;" />
+      </block>
       <button wx:if="{{!submitted}}" class="btn-primary" style="margin-top: 32rpx; width: 100%; background: {{submitting ? '#94a3b8' : ''}}; opacity: {{submitting ? 0.7 : 1}};" bindtap="submitAnswer" disabled="{{submitting}}">{{submitting ? '⏳ AI 批改中...' : '提交答案'}}</button>
       <view wx:if="{{submitting}}" class="progress-wrap">
         <view class="progress-track">

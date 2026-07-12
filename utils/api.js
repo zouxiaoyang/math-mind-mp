@@ -116,10 +116,14 @@ module.exports = {
     })
   },
   createExam: function (data) {
+    var payload = Object.assign({}, data, { userId: getUserId() })
+    if (!payload.types) {
+      payload.types = ['CHOICE', 'JUDGE', 'CALCULATION', 'APPLICATION']
+    }
     return request({
       url: '/api/exams',
       method: 'POST',
-      data: Object.assign({}, data, { userId: getUserId() }),
+      data: payload,
     })
   },
   submitAnswer: function (data) {
