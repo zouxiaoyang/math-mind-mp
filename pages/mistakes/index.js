@@ -67,6 +67,8 @@ Page({
             ...m,
             difficulty,
             subject: q.subject || m.subject || 'NUMBER_ALGEBRA',
+            explanation: q.explanation || m.explanation || '',
+            correctAnswer: q.answer || m.correctAnswer || '',
             stars,
             subjectLabel: this.getSubjectLabel(q.subject || m.subject || 'NUMBER_ALGEBRA'),
           }
