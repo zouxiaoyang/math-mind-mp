@@ -101,9 +101,11 @@ module.exports = {
     })
   },
   getQuestions: function (params) {
-    var qs = Object.entries(params)
+    var userId = getUserId()
+    var query = Object.assign({}, params, { userId: userId })
+    var qs = Object.entries(query)
       .filter(function (v) {
-        return v[1] !== undefined && v[1] !== ''
+        return v[1] !== undefined && v[1] !== '' && v[1] !== null
       })
       .map(function (v) {
         return v[0] + '=' + v[1]

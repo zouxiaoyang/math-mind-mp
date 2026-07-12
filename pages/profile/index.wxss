@@ -256,7 +256,7 @@
   width: 100%;
   background: #fff;
   border-radius: 32rpx 32rpx 0 0;
-  padding: 0 0 60rpx;
+  padding: 0 0 180rpx;
   animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

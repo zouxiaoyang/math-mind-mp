@@ -97,6 +97,11 @@ Page({
     wx.navigateTo({ url: '/pages/login/index' })
   },
   goGenerate() {
+    const app = getApp()
+    if (app && !app.isLoggedIn()) {
+      wx.navigateTo({ url: '/pages/login/index' })
+      return
+    }
     wx.switchTab({ url: '/pages/generate/index' })
   },
   goThinking() {

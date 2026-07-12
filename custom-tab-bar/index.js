@@ -14,6 +14,14 @@ Component({
     switchTab(e) {
       const { index } = e.currentTarget.dataset
       const item = this.data.list[index]
+      const authRequired = ['/pages/profile/index', '/pages/generate/index']
+      if (authRequired.includes(item.pagePath)) {
+        const app = getApp()
+        if (app && !app.isLoggedIn()) {
+          wx.navigateTo({ url: '/pages/login/index' })
+          return
+        }
+      }
       wx.switchTab({ url: item.pagePath })
       this.setData({ selected: index })
     },
