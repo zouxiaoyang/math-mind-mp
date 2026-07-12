@@ -94,7 +94,7 @@
               <text class="mc-exp-icon">💡</text>
               <text class="mc-exp-title">思路解析</text>
             </view>
-            <view class="mc-exp-body">{{item.explanation}}</view>
+            <text class="mc-exp-body">{{item.explanation}}</text>
           </view>
 
           <view class="mc-toggle" data-id="{{item.questionId}}" bindtap="toggleAnswer">

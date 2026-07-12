@@ -345,9 +345,11 @@
 }
 
 .mc-exp-body {
+  display: block;
   font-size: 26rpx;
   color: #78350f;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 /* 操作按钮 */

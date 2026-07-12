@@ -67,7 +67,7 @@ Page({
             ...m,
             difficulty,
             subject: q.subject || m.subject || 'NUMBER_ALGEBRA',
-            explanation: q.explanation || m.explanation || '',
+            explanation: this.formatExplanation(q.explanation || m.explanation),
             correctAnswer: q.answer || m.correctAnswer || '',
             stars,
             subjectLabel: this.getSubjectLabel(q.subject || m.subject || 'NUMBER_ALGEBRA'),
@@ -104,6 +104,32 @@ Page({
       PRACTICE: '综合实践',
     }
     return map[subject] || '其他'
+  },
+
+  formatExplanation(raw) {
+    if (!raw) {return ''}
+    if (typeof raw === 'string') {
+      // 尝试解析 JSON 字符串
+      try {
+        const obj = JSON.parse(raw)
+        if (obj && typeof obj === 'object') {return this.formatExplanation(obj)}
+        return String(obj)
+      } catch {
+        return raw
+      }
+    }
+    // 对象格式 {steps, methods, keyPoint}
+    const parts = []
+    if (Array.isArray(raw.steps) && raw.steps.length > 0) {
+      parts.push('解题步骤:\n' + raw.steps.map((s, i) => `${i + 1}. ${s}`).join('\n'))
+    }
+    if (Array.isArray(raw.methods) && raw.methods.length > 0) {
+      parts.push('方法: ' + raw.methods.join('、'))
+    }
+    if (raw.keyPoint) {
+      parts.push('关键点: ' + raw.keyPoint)
+    }
+    return parts.join('\n\n') || JSON.stringify(raw)
   },
 
   applyFilter() {
