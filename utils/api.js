@@ -111,7 +111,7 @@ module.exports = {
         return v[0] + '=' + v[1]
       })
       .join('&')
-    return request({ url: '/api/exams?' + qs, method: 'GET' }).then(function (res) {
+    return request({ url: '/api/questions?' + qs, method: 'GET' }).then(function (res) {
       return Object.assign({}, res, { data: res.data })
     })
   },
