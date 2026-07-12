@@ -215,20 +215,22 @@ Page({
     if (!q.content) {
       return q
     }
-    const optPattern = /^([A-D])[．.、:：)）\]\s]+(.+)$/
+    // 多种选项格式兼容: A. / A、 / (A) / （A） / ① / 1. / 1、 等
+    const optRegex = /(?:^\s*(?:[（(]?([A-D①②③④])[）)]?|(\d+))\s*[．.、:：)）\]]\s*)(.+)$/
     const options = {}
     const stemLines = []
     for (const line of q.content.split('\n')) {
       const trimmed = line.trim()
-      if (!trimmed) {
-        continue
-      }
-      const m = trimmed.match(optPattern)
+      if (!trimmed) {continue}
+      const m = trimmed.match(optRegex)
       if (m) {
-        options[m[1]] = m[2].trim()
-      } else {
-        stemLines.push(line.trim())
+        const key = m[1] || m[2]
+        if (key) {
+          options[key] = m[3].trim()
+          continue
+        }
       }
+      stemLines.push(line.trim())
     }
     if (Object.keys(options).length >= 2) {
       return { ...q, stem: stemLines.join('\n'), options, optKeys: Object.keys(options) }
